@@ -40,6 +40,35 @@
       }
     });
   });
+  // One-line commands: copy the command itself.
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1500); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done);
+    });
+  });
+  // The hero switch: a tablist (arrow keys move, the panel and its caption follow).
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+    var select = function (tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        var panel = document.getElementById(t.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+        document.querySelectorAll('[data-for="' + t.getAttribute('aria-controls') + '"]').forEach(function (c) { c.hidden = !on; });
+      });
+    };
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { select(tab); });
+      tab.addEventListener('keydown', function (e) {
+        var next = e.key === 'ArrowRight' ? tabs[(i + 1) % tabs.length] : e.key === 'ArrowLeft' ? tabs[(i - 1 + tabs.length) % tabs.length] : null;
+        if (next) { e.preventDefault(); select(next); next.focus(); }
+      });
+    });
+  });
   // Highlight the current docs section in the "On this page" list.
   var toc = document.querySelectorAll('.toc a');
   if (toc.length && 'IntersectionObserver' in window) {

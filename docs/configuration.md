@@ -1,7 +1,7 @@
 ---
 title: Configuration
 order: 3
-group: Guide
+group: Get started
 description: duckview.config.yaml, environment overrides and every setting that matters — security, database, auth, DuckDB, MCP, lakehouse, Copilot, cache and observability.
 ---
 

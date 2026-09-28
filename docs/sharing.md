@@ -1,7 +1,7 @@
 ---
-title: Sharing & teams
-order: 5
-group: Guide
+title: Sharing and teams
+order: 31
+group: Model and govern
 description: Share workspaces with people or teams as owner, editor or viewer; manage teams; mirror identity-provider groups over OIDC.
 ---
 

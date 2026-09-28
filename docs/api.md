@@ -1,6 +1,6 @@
 ---
-title: HTTP API, CLI & observability
-order: 11
+title: HTTP API, CLI and observability
+order: 60
 group: Reference
 description: Every endpoint group, the uniform error shape, the duckview CLI, Prometheus metrics and OpenTelemetry traces.
 ---

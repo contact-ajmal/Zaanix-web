@@ -1,289 +1,273 @@
 ---
 title: DuckView
-description: DuckView is a self-hosted DuckDB analytics workspace — connect files, buckets, databases, warehouses, SaaS applications and Iceberg catalogs, query them from one SQL workbench, build cross-filtered dashboards and Streamlit data apps, share workspaces with your team, and let AI agents do the same, safely.
+description: DuckView is a self-hosted data workspace on DuckDB. Connect files, databases, warehouses, SaaS apps and lakehouses; query, model and govern them; build dashboards, notebooks and data apps — or hand the work to DuckView Agent, which works with your access and asks before it changes anything.
 ---
 <section class="hero">
-  <div class="container hero-inner">
-    <span class="eyebrow"><span class="dot"></span> Open, self-hosted, native DuckDB</span>
-    <h1>The analytics workspace where <span class="grad">DuckDB, your data sources and your AI agents</span> meet.</h1>
-    <p class="lead">Connect files, buckets, databases, warehouses, SaaS applications and Iceberg catalogs. Query them from one SQL workbench, build cross-filtered dashboards and Streamlit data apps, share workspaces with your team — and let agents do all of it, held to human approval.</p>
-    <div class="cta-row">
-      <a class="btn btn-primary btn-lg" href="{{root}}deploy.html">Get started — one <code style="background:none;border:0;color:#fff;padding:0">docker run</code></a>
-      <a class="btn btn-lg" href="{{hub}}" target="_blank" rel="noopener">Docker Hub ↗</a>
-      <a class="btn btn-lg" href="{{repo}}" target="_blank" rel="noopener">Source on GitHub ↗</a>
-    </div>
-    <div class="badges">
-      <span class="badge">DuckDB <b>1.5</b></span>
-      <span class="badge">MCP <b>stdio · SSE · Streamable HTTP</b></span>
-      <span class="badge">Image <b>amd64 + arm64</b></span>
-      <span class="badge">TypeScript <b>strict</b></span>
-      <span class="badge">Tests <b>240 passing</b></span>
-    </div>
-  </div>
   <div class="container">
-    <div class="hero-shot"><img src="{{root}}assets/img/hero.png" alt="DuckView SQL workbench querying an Iceberg lakehouse table with DuckDB" width="1280" height="800" loading="eager"></div>
-    <div class="stats">
-      <div class="stat"><b>1 engine</b><span>native DuckDB per workspace — no sidecars</span></div>
-      <div class="stat"><b>25+ sources</b><span>buckets · catalogs · databases · warehouses · SaaS · Drive & Sheets</span></div>
-      <div class="stat"><b>25 tools</b><span>one registry behind MCP, REST and OpenAPI</span></div>
-      <div class="stat"><b>3 ms</b><span>a cached profile of a 400 MB CSV</span></div>
+    <h1>Your data workspace, with an agent that works in it.</h1>
+    <p class="lead">DuckView brings your files, databases, warehouses and lakehouses into one self-hosted workspace on DuckDB. Query, model, chart and govern the data yourself — or hand the question to DuckView Agent, which works with your access and asks before it changes anything.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-lg" href="{{root}}deploy.html">Get started</a>
+      <div class="cmd"><span class="prompt">$</span><code>docker run -p 4200:4200 {{image}}</code><button type="button" data-copy="docker run -p 4200:4200 {{image}}">Copy</button></div>
     </div>
-  </div>
-</section>
 
-<section>
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">Why DuckView</span>
-      <h2>Most “SQL UIs” stop at the query box.</h2>
-      <p class="lead">DuckView is a complete data workspace built on a native DuckDB engine per workspace — no Python sidecars, no JDBC, no data leaving your machine unless you ask it to.</p>
-    </div>
-    <div class="grid grid-3">
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></div>
-        <h3>Query anything, instantly</h3>
-        <p>Parquet, CSV, JSON, Excel, DuckDB files, S3 / R2 / GCS / Azure objects — and Iceberg catalogs on AWS Glue, S3 Tables, any Iceberg REST catalog and Databricks. Drop a file, add a folder from anywhere on the machine, or pick a bucket, and it is queryable in seconds.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5M9 8V2M15 8V2M18 8v4a6 6 0 0 1-12 0V8z"/></svg></div>
-        <h3>Every source, one page <span class="tag new">New in 1.2</span></h3>
-        <p>PostgreSQL, MySQL, Snowflake, BigQuery, Redshift, ClickHouse, Fabric, Salesforce, HubSpot, Stripe, GA4, Airtable, Notion, Google Drive and Sheets — health-checked, browsable in place, credentials write-only. <a href="{{root}}docs/connections.html">Syncs</a> keep the data fresh on a schedule, with transformations validated before they save.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4"/></svg></div>
-        <h3>Data apps on your data <span class="tag new">New in 1.2</span></h3>
-        <p>Streamlit apps written with the <code>duckview</code> SDK — or generated from a dashboard — run by DuckView next to the engine, served to the workspace with a read-only token. Agents create, preview and publish them over MCP. <a href="{{root}}docs/apps.html">How it works</a>.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8V4m-4 0h8M8 14h.01M16 14h.01M9 17h6"/></svg></div>
-        <h3>Agent-native from day one</h3>
-        <p>A hardened MCP server plus a REST / OpenAPI façade expose the same tools to Claude Desktop, Cursor, Claude Code, Strands, LangGraph, CrewAI and Bedrock AgentCore. Every mutation is held for human approval.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 0-4 4v1a4 4 0 0 0-3 4v1a4 4 0 0 0 4 4h1m2-14a4 4 0 0 1 4 4v1a4 4 0 0 1 3 4v1a4 4 0 0 1-4 4h-1M12 3v18"/></svg></div>
-        <h3>DuckCopilot</h3>
-        <p>An in-app assistant hydrated with your live schema, files, buckets and the SQL you are writing. Fourteen providers — Claude, ChatGPT, Gemini, DeepSeek, OpenRouter, Kimi, Groq, Mistral, Grok, Ollama, Bedrock, your own agent — configured from the console with write-only keys.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 15l4-6 4 4 5-8"/></svg></div>
-        <h3>From profile to dashboard</h3>
-        <p>Auto-profiling on load (KPIs, null ratios, distributions), a tabbed IDE-style workbench with charts, plans and profiles, and a drag-and-drop BI dashboard builder with auto-refresh.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></svg></div>
-        <h3>Cross-filter millions of rows</h3>
-        <p>Explore any file, table or query as linked charts, or write a <a href="{{root}}docs/mosaic.html">Mosaic dashboard</a> spec with a live preview — generated from your data in one click. Powered by Mosaic's data cubes, computed in the workspace engine, never in the browser.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/><circle cx="9" cy="7" r="4"/></svg></div>
-        <h3>Built for teams</h3>
-        <p>Share a workspace with people or teams as viewer, editor or owner. Dashboards and saved queries are shared; tabs stay personal. Teams mirror your IdP groups over OIDC, so <code>okta:finance</code> is a share target on day one.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <h3>Enterprise hardening</h3>
-        <p>Filesystem jail, DuckDB <code>lock_configuration</code>, per-workspace memory and thread limits, AES-256-GCM credential vault, scoped API tokens, audit log, Prometheus + OpenTelemetry, OIDC with group → role mapping.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-alt">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Product tour</span>
-      <h2>Everything from the first file to the executive dashboard.</h2>
-    </div>
-    <div class="tour">
-      <div>
-        <h3>Overview — every source in one bar, profiled on arrival</h3>
-        <p>The data source bar maps the workspace: <em>Local</em> — the data directory, folders mounted from this computer, the workspace's tables — and <em>Remote</em>, every connection you configured, browsable in place. Pick anything and DuckView profiles it immediately, computed by DuckDB, never sampled by hand.</p>
-        <ul>
-          <li>Row and column counts, type mix, null ratios, duplicate rows, distributions</li>
-          <li>Uploads land in the data directory or any folder you choose</li>
-          <li>Warehouse tables, SaaS objects and Sheets tabs import through a sync in one click</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="{{root}}assets/img/overview.png" alt="Overview page with the data source bar, KPIs, schema profile and distributions" width="1280" height="800" loading="lazy"></div>
-    </div>
-    <div class="tour flip">
-      <div>
-        <h3>Workbench — an IDE for SQL</h3>
-        <p>Tabs with per-tab <em>Stop</em>, cursor and draft persistence, a schema explorer that opens when you click a file, chart / plan / profile views, <code>.sql</code> import and export, a saved-query library with folders and tags, and streaming results over WebSocket.</p>
-        <ul>
-          <li>Every pane is a resizable splitter; every component can be hidden and restored</li>
-          <li>Engine picker: DuckDB or any Databricks SQL warehouse per tab</li>
-          <li>Last result of every tab comes back after a reload</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="{{root}}assets/img/copilot.png" alt="Workbench with the DuckCopilot drawer docked on the right" width="1280" height="800" loading="lazy"></div>
-    </div>
-    <div class="tour">
-      <div>
-        <h3>Connections &amp; syncs — one page for every source</h3>
-        <p>Object storage, lakehouse catalogs, PostgreSQL / MySQL / SQLite, Snowflake, BigQuery, Redshift, ClickHouse, Fabric, Salesforce, HubSpot, Stripe, GA4, Airtable, Notion, HTTP endpoints, Google Drive and Sheets with your Google account. Each card opens the form for that source; each connection shows its health and is browsed in place.</p>
-        <ul>
-          <li>Scheduled syncs (interval or cron) into workspace tables, replace or append, with a run history</li>
-          <li>Transformations over <code>{{raw}}</code>, validated before saving — drafted by Copilot or set by agents</li>
-          <li>Credentials encrypted and write-only; rows staged through the connector, never through the engine</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="{{root}}assets/img/connections.png" alt="The Connections catalog: object storage, lakehouse catalogs, databases, warehouses, SaaS applications, Drive and Sheets" width="1280" height="1040" loading="lazy"></div>
-    </div>
-    <div class="tour flip">
-      <div>
-        <h3>Mosaic dashboards — cross-filter millions of rows</h3>
-        <p>A declarative spec becomes a dashboard where every chart filters every other: menus, sliders, KPI cards, timelines, histograms, heat maps and tables share one crossfilter, computed as data cubes in the workspace engine.</p>
-        <ul>
-          <li>Editor with live preview; generated from any table or file in one click</li>
-          <li>Drafted by Copilot or created by agents, validated against your data before saving</li>
-          <li>Datasets materialised once in memory — 3.7 million taxi trips answer every brush in milliseconds</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="{{root}}assets/img/mosaic.png" alt="Mosaic dashboard over 3.5 million taxi trips with filters, KPIs, a timeline and heat maps" width="1280" height="800" loading="lazy"></div>
-    </div>
-    <div class="tour">
-      <div>
-        <h3>Data apps — Streamlit on the workspace's data</h3>
-        <p>Write an app with the <code>duckview</code> SDK, generate one from a dashboard or saved queries, or let Copilot draft it. DuckView creates the Python environment, runs the app, checks its health and serves it to the workspace's members with a read-only, workspace-scoped token.</p>
-        <ul>
-          <li>Editor with Python highlighting next to the live preview; ⌘S saves and restarts</li>
-          <li>Agents: <code>create_app</code> → <code>preview_app</code> (a screenshot) → <code>update_app</code> → <code>publish_app</code></li>
-          <li><code>pip install duckview</code> to use the SDK anywhere else</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="{{root}}assets/img/apps.png" alt="The data app editor: Python code next to the live Streamlit preview" width="1280" height="800" loading="lazy"></div>
-    </div>
-    <div class="tour flip">
-      <div>
-        <h3>Dashboards — from query to executive view in minutes</h3>
-        <p>KPI, chart, table and Markdown widgets on a drag-and-drop grid with auto-refresh. Widgets run the same guarded queries as the workbench — and agents can build dashboards for you through <code>create_dashboard_widget</code>.</p>
-        <ul>
-          <li>Widgets bound to saved queries or ad-hoc SQL</li>
-          <li>Auto-refresh that costs nothing when the data has not changed</li>
-          <li>Shared with every member of the workspace</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="{{root}}assets/img/dashboard.png" alt="BI dashboard with KPIs, bar and line charts" width="1280" height="800" loading="lazy"></div>
-    </div>
-    <div class="tour">
-      <div>
-        <h3>Agent &amp; MCP hub</h3>
-        <p>Register an agent — Strands, LangGraph, LangChain, CrewAI, AgentCore Runtime / Gateway, Bedrock Agents or anything custom — and DuckView mints a workspace-scoped token, shows a copy-paste snippet with the token filled in, and attributes every call in the live inspector.</p>
-        <ul>
-          <li>25 tools, 4 resources and 5 guided prompts — one registry behind MCP, REST and OpenAPI 3.0, so they can never drift</li>
-          <li>Results capped, strings truncated, paths jailed</li>
-          <li>Every mutating statement returns an approval challenge until a human re-issues it</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="{{root}}assets/img/agents.png" alt="Agent & MCP hub with registered agents, framework snippets and the live inspector" width="1280" height="800" loading="lazy"></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Lakehouse connectors</span>
-      <h2>Attach catalogs once; query them as <code>alias.schema.table</code>.</h2>
-      <p class="lead">Credentials are encrypted at rest and applied to running engines without a restart — your in-memory tables survive.</p>
-    </div>
-    <div class="grid grid-2" style="align-items:center">
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Platform</th><th>How</th><th>Auth</th></tr></thead>
-          <tbody>
-            <tr><td><b>AWS Glue / SageMaker Lakehouse</b></td><td>Native DuckDB <code>ATTACH</code> over Glue's Iceberg REST endpoint (SigV4); federated / S3 Tables catalogs</td><td>Access keys or IAM role</td></tr>
-            <tr><td><b>Amazon S3 Tables</b></td><td><code>ATTACH</code> by table-bucket ARN</td><td>Access keys or IAM role</td></tr>
-            <tr><td><b>Iceberg REST</b></td><td>Polaris, Lakekeeper, Nessie, Snowflake Open Catalog, Tabular, Unity Catalog IRC</td><td>Bearer · OAuth2 · none</td></tr>
-            <tr><td><b>Databricks</b></td><td>Browse Unity Catalog; run SQL on a SQL warehouse; materialise results into DuckDB; attach UniForm tables natively</td><td>PAT or OAuth M2M</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="shot"><img src="{{root}}assets/img/lakehouse-wizard.png" alt="Lakehouse connection wizard" width="1280" height="800" loading="lazy"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section-alt">
-  <div class="container">
-    <div class="grid grid-2" style="align-items:center;gap:40px">
-      <div>
-        <span class="eyebrow">Built for AI agents</span>
-        <h2>Safety is not optional.</h2>
-        <p class="lead" style="margin:0 0 16px">Agents are first-class users with the same sandbox, the same audit trail and one extra rule: nothing mutates without a human.</p>
-        <ul class="checks">
-          <li>MCP over stdio, SSE and Streamable HTTP</li>
-          <li>REST façade <code>POST /api/agent/v1/tools/&lt;tool&gt;</code></li>
-          <li>OpenAPI 3.0 for Bedrock action groups</li>
-          <li>Human-in-the-loop <code>dry_run</code> challenges</li>
-          <li>Per-agent tokens, counters and live inspector</li>
-          <li>Viewers stay viewers — even with an approved call</li>
-        </ul>
-      </div>
-      <div class="code-panel"><span class="c"># Strands — the whole integration</span>
-duckview = MCPClient(<span class="k">lambda</span>: streamablehttp_client(
-    <span class="s">"https://duckview.example.com/mcp"</span>,
-    headers={<span class="s">"Authorization"</span>: <span class="s">"Bearer dv_…"</span>}))
-
-<span class="k">with</span> duckview:
-    Agent(tools=duckview.list_tools_sync())(
-        <span class="s">"Which region grew fastest last quarter?"</span>)</div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">Result cache</span>
-      <h2>Fast the second time — and never stale.</h2>
-      <p class="lead">A two-tier result cache: shared on the server, per user in the browser. Keys embed each file's size and modification time plus a workspace data epoch that every mutation moves — so a hit is exact, not a guess.</p>
-    </div>
-    <div class="grid grid-3">
-      <div class="card"><h3>9 938 ms → 3 ms</h3><p>Overview profile of a 387 MB CSV: cold, then from the shared server cache. A confirmed-current <code>304</code> takes 2 ms and no DuckDB work.</p></div>
-      <div class="card"><h3>Correct by construction</h3><p>Every mutation, upload, folder change and engine restart funnels through one choke point that bumps the epoch. Non-deterministic SQL and remote sources are handled explicitly.</p></div>
-      <div class="card"><h3>Instant on return</h3><p>IndexedDB restores profiles, schemas, plans, widgets and the last result of every tab the moment the page opens, then quietly revalidates. Wiped on sign-out.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="section-alt">
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">Themes</span>
-      <h2>Six themes, one system.</h2>
-      <p class="lead">Colour and typeface applied through runtime CSS variables so every component — charts, code editor, gauges — follows. First visit follows your OS scheme.</p>
-    </div>
-    <div class="themes">
-      <figure><img src="{{root}}assets/img/theme-fjord.png" alt="Fjord theme" loading="lazy"><figcaption><b>Fjord</b> · Nord-style teal</figcaption></figure>
-      <figure><img src="{{root}}assets/img/theme-graphite.png" alt="Graphite theme" loading="lazy"><figcaption><b>Graphite</b> · neutral / blue</figcaption></figure>
-      <figure><img src="{{root}}assets/img/theme-daylight.png" alt="Daylight theme" loading="lazy"><figcaption><b>Daylight</b> · light / violet</figcaption></figure>
-      <figure><img src="{{root}}assets/img/theme-professional.png" alt="Professional theme" loading="lazy"><figcaption><b>Professional</b> · corporate navy, IBM Plex</figcaption></figure>
-      <figure><img src="{{root}}assets/img/theme-paper.png" alt="Paper theme" loading="lazy"><figcaption><b>Paper</b> · warm off-white / orange</figcaption></figure>
-      <figure><img src="{{root}}assets/img/appearance.png" alt="Appearance settings" loading="lazy"><figcaption><b>Appearance</b> · fonts &amp; UI scale</figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="cta-band">
-      <div>
-        <span class="eyebrow">Get started</span>
-        <h2>Running in under a minute.</h2>
-        <p>A multi-arch image (amd64 + arm64) is published to Docker Hub. Compose, Kubernetes and from-source options are on the deploy page.</p>
-        <div class="cta-row" style="margin-top:20px">
-          <a class="btn btn-primary" href="{{root}}deploy.html">All deployment options</a>
-          <a class="btn" href="{{root}}docs/index.html">Read the docs</a>
+    <div class="stage">
+      <div class="stage-row">
+        <div class="switch" role="tablist" aria-label="Two ways to work">
+          <button type="button" role="tab" id="tab-platform" aria-controls="panel-platform" aria-selected="true"><span class="swatch" aria-hidden="true"></span>In the platform</button>
+          <button type="button" role="tab" id="tab-agent" aria-controls="panel-agent" aria-selected="false" tabindex="-1"><span class="swatch" aria-hidden="true"></span>With the agent</button>
         </div>
+        <p class="stage-caption" data-for="panel-platform"><b>You drive.</b> SQL, dashboards, notebooks and apps on the same data — a cross-filtered sales dashboard here.</p>
+        <p class="stage-caption" data-for="panel-agent" hidden><b>You ask.</b> The agent plans, queries DuckView as you, and answers with findings, charts and the SQL behind them.</p>
       </div>
-      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>docker run -p 4200:4200 \
+      <div role="tabpanel" id="panel-platform" aria-labelledby="tab-platform">
+        <div class="frame"><img src="{{root}}assets/img/platform-dashboard.jpg" alt="A Mosaic dashboard in DuckView: monthly sales by category, orders by channel, revenue by region and the order table, with filters above" width="1440" height="900" loading="eager"></div>
+      </div>
+      <div role="tabpanel" id="panel-agent" aria-labelledby="tab-agent" hidden>
+        <div class="frame light"><img src="{{root}}assets/img/agent-mission.jpg" alt="A DuckView Agent mission: the question, the answer with key findings, a chart of revenue by category in the canvas, and where the numbers come from" width="1440" height="900" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div><b>35</b><span>kinds of source: buckets, lakehouses, databases, warehouses and SaaS apps</span></div>
+      <div><b>90</b><span>tools, the same for the agent, MCP clients and the REST API</span></div>
+      <div><b>1</b><span>DuckDB engine per workspace, in the server's own process</span></div>
+      <div><b>AES-256</b><span>encryption for every stored credential; secrets never reach the browser</span></div>
+    </div>
+  </div>
+  <div class="hero-foot"></div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Two ways to work, one workspace</span>
+      <h2>The platform for doing it yourself. The agent for handing it over.</h2>
+      <p class="lead">Both work on the same workspaces, the same data and the same permissions. Start in either; anything the agent makes opens in the platform.</p>
+    </div>
+    <div class="ways">
+      <div class="way">
+        <h3>DuckView</h3>
+        <p class="who">For analysts and data engineers who want the tools in their hands.</p>
+        <ul>
+          <li><b>A SQL workbench</b> with results, charts, pivots, profiles and measured query plans</li>
+          <li><b>Dashboards, notebooks and data apps</b> — Streamlit, Dash and Gradio — on live data</li>
+          <li><b>Models, metrics and quality checks</b>: dbt projects, a semantic layer, tests on a schedule</li>
+          <li><b>Governance</b>: row filters, column masks, lineage, audit and SCIM</li>
+        </ul>
+        <a class="link-arrow" href="{{root}}features.html">Everything in the platform</a>
+      </div>
+      <div class="way">
+        <h3>DuckView Agent</h3>
+        <p class="who">For anyone with a question, or work they would rather hand over.</p>
+        <ul>
+          <li><b>Missions</b>: say what you need; the agent plans, queries and shows its work</li>
+          <li><b>Context you choose</b>: tables, server files, cloud objects, lakehouse tables, uploads</li>
+          <li><b>Approval where it matters</b>: reads run; changes wait for you, by your autonomy setting</li>
+          <li><b>Results you can keep</b>: pin to a dashboard, save the query, turn a mission into a brief</li>
+        </ul>
+        <a class="link-arrow" href="{{root}}agent.html">How the agent works</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-mist">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">What is in it</span>
+      <h2>Everything a data team does, in one self-hosted workspace.</h2>
+    </div>
+    <div class="index">
+      <div>
+        <h3>Query and explore</h3>
+        <p class="sub">Files, tables and remote objects, queried where they are.</p>
+        <ul>
+          <li><b>SQL workbench</b> with tabs, history, formatting and a measured plan</li>
+          <li><b>Data explorer</b>: profiles, column detail, pivots, compare two datasets</li>
+          <li><b>Interactive exploration</b>: cross-filtered views of any result</li>
+          <li><b>Workspace search</b> across tables, columns, queries and dashboards</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Build and share</h3>
+        <p class="sub">From a query to something other people use.</p>
+        <ul>
+          <li><b>Dashboards</b>: grid or cross-filtered, with maps, alerts and snapshots</li>
+          <li><b>SQL notebooks</b> where each cell builds on the one above</li>
+          <li><b>Data apps</b>: Streamlit, Dash and Gradio, served next to the engine</li>
+          <li><b>Signed embeds</b> and <b>queries published as HTTP APIs</b></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Connect</h3>
+        <p class="sub">Once, for every workspace.</p>
+        <ul>
+          <li><b>Storage and lakehouses</b>: S3, R2, GCS, Azure, Iceberg, Glue, Databricks</li>
+          <li><b>Databases and warehouses</b>: Postgres, MySQL, Snowflake, BigQuery, Redshift</li>
+          <li><b>SaaS</b>: Salesforce, HubSpot, Stripe, GA4, GitHub, Jira, Shopify and more</li>
+          <li><b>Streams and CDC</b>: Kafka, Kinesis, HTTP pushes, Postgres replication</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Model and trust</h3>
+        <p class="sub">Numbers people can rely on.</p>
+        <ul>
+          <li><b>dbt projects</b> compiled by real dbt Core, run in the workspace's engine</li>
+          <li><b>Semantic layer</b>: metrics defined once, used by people, AI and agents</li>
+          <li><b>Data quality</b>: suggested checks on a schedule, failing rows one click away</li>
+          <li><b>Metric monitors</b> that flag unusual days and say which segment moved</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Govern</h3>
+        <p class="sub">Access that holds for every query, whoever asks.</p>
+        <ul>
+          <li><b>Row filters and column masks</b>, applied by rewriting each query</li>
+          <li><b>Catalog and lineage</b> from sources to dashboards and apps</li>
+          <li><b>Personal data</b>: find it, tag it, mask it</li>
+          <li><b>SSO, SCIM, audit export</b>, version history and Git sync</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Automate and integrate</h3>
+        <p class="sub">DuckView in the rest of your stack.</p>
+        <ul>
+          <li><b>The Postgres protocol</b>: Tableau, Power BI, Metabase and psql connect directly</li>
+          <li><b>Orchestration</b>: Airflow, Dagster and Prefect run DuckView work</li>
+          <li><b>Reverse ETL</b> into databases, APIs, Iceberg and Delta tables</li>
+          <li><b>MCP and A2A</b> for your own agents, and a REST API with OpenAPI</li>
+        </ul>
+      </div>
+    </div>
+    <p class="index-more"><a class="link-arrow" href="{{root}}features.html">See the whole platform</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="show">
+      <div class="show-text">
+        <h3>SQL first, with everything around it.</h3>
+        <p>Every workspace is a DuckDB database. Files on the server, objects in your buckets and tables in your lakehouse are queryable where they sit.</p>
+        <ul>
+          <li>Results, a chart, a pivot, a profile and the query plan in one place</li>
+          <li>Errors that point at the line, and a fix from the AI when you want one</li>
+          <li>Statements that change data wait for approval before they run</li>
+        </ul>
+      </div>
+      <div class="frame"><img src="{{root}}assets/img/platform-workbench.jpg" alt="The DuckView SQL workbench: a monthly revenue query and its bar chart, with the data directory and tables on the left" width="1440" height="900" loading="lazy"></div>
+    </div>
+    <div class="show flip">
+      <div class="show-text">
+        <h3>Notebooks that explain, not just compute.</h3>
+        <p>SQL, text and input cells. Each cell can read the result of the one above by name, so an analysis reads top to bottom — and keeps its outputs.</p>
+        <ul>
+          <li>Inputs that parameterise every query below them</li>
+          <li>Comments on cells, version history and Git sync</li>
+          <li>Export to Markdown; agents can create and run notebooks too</li>
+        </ul>
+      </div>
+      <div class="frame"><img src="{{root}}assets/img/platform-notebook.jpg" alt="A DuckView SQL notebook analysing sales transactions, with a text cell, an input and a SQL cell" width="1440" height="900" loading="lazy"></div>
+    </div>
+    <div class="show">
+      <div class="show-text">
+        <h3>Know where every number comes from.</h3>
+        <p>Lineage is built from the SQL itself — syncs, views, dbt models, dashboards, alerts and apps — with DuckDB's own parser.</p>
+        <ul>
+          <li>Trace a table to its sources and to everything built on it</li>
+          <li>Descriptions and tags that people, the AI and agents all read</li>
+          <li>OpenLineage events for the catalog you already run</li>
+        </ul>
+      </div>
+      <div class="frame"><img src="{{root}}assets/img/platform-lineage.jpg" alt="DuckView lineage: a sales file feeding a staging view, four analysis views, a Streamlit app and a Mosaic dashboard" width="1440" height="900" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<section class="night">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">DuckView Agent</span>
+      <h2>Hand over the question. Keep control of the answer.</h2>
+      <p class="lead">DuckView Agent is a separate web app next to the platform. You sign in with your DuckView account; the agent works with your access, uses the platform's 90 tools, and holds every change for you.</p>
+    </div>
+    <ol class="steps">
+      <li><b>Choose the context</b><span>Tables, files on the server, cloud objects, lakehouse tables, or files from your computer.</span></li>
+      <li><b>Ask</b><span>Pick what you want — analyse, build a dashboard, check quality, investigate — or just write it.</span></li>
+      <li><b>It works as you</b><span>A plan, then queries DuckView runs with your permissions. Every step can be opened.</span></li>
+      <li><b>You decide what stays</b><span>Approve changes, pin results to dashboards, save queries, or turn it into a brief.</span></li>
+    </ol>
+    <div class="pair">
+      <figure>
+        <div class="frame light"><img src="{{root}}assets/img/agent-home.jpg" alt="The DuckView Agent home: a prompt, capability chips such as Analyse data and Build dashboard, sample prompts and the Context panel" width="1440" height="900" loading="lazy"></div>
+        <figcaption><b>Start from a capability.</b> Sample prompts are written for the data in your context.</figcaption>
+      </figure>
+      <figure>
+        <div class="frame light"><img src="{{root}}assets/img/agent-brief.jpg" alt="A DuckView Agent brief: a report page with the summary, key findings and a chart" width="1440" height="900" loading="lazy"></div>
+        <figcaption><b>Keep it as a brief.</b> An editable report that refreshes its numbers and saves as a dashboard.</figcaption>
+      </figure>
+    </div>
+    <p style="margin-top:48px"><a class="btn btn-primary" href="{{root}}agent.html">How the agent works</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Built to be trusted</span>
+      <h2>Your data stays where you put it.</h2>
+    </div>
+    <div class="trust">
+      <div><b>Self-hosted</b><span>One container, on a laptop, a server or Kubernetes. Nothing leaves unless you connect it.</span></div>
+      <div><b>One set of permissions</b><span>People, the AI, agents, BI tools and APIs all go through the same roles, row filters and column masks.</span></div>
+      <div><b>Changes wait for a person</b><span>An agent's statement that changes data, publishes or reaches outside is held until someone approves it.</span></div>
+      <div><b>Everything is on the record</b><span>An audit log you can stream to Splunk, Datadog or a bucket; version history for every notebook, query and dashboard.</span></div>
+      <div><b>Credentials never reach the browser</b><span>Connection secrets are encrypted at rest (AES-256-GCM) and write-only once saved.</span></div>
+      <div><b>Your model, your choice</b><span>Anthropic, OpenAI, Bedrock, OpenRouter, Ollama or any OpenAI-compatible endpoint — or none at all.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-mist">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Works with</span>
+      <h2>Fits the stack you already have.</h2>
+    </div>
+    <div class="works">
+      <div class="k">BI tools</div><div class="v">Tableau, Power BI, Metabase, psql and any Postgres driver, over the Postgres protocol</div>
+      <div class="k">Transformation</div><div class="v">dbt Core projects, imported MetricFlow metrics, dbt tests next to DuckView's checks</div>
+      <div class="k">Orchestration</div><div class="v">Airflow operators, Dagster resources and Prefect tasks</div>
+      <div class="k">Agents</div><div class="v">Claude, Cursor and other MCP clients; Agent2Agent (A2A) in both directions</div>
+      <div class="k">Delivery</div><div class="v">Slack, Microsoft Teams, email, PagerDuty and signed webhooks</div>
+      <div class="k">Identity</div><div class="v">OIDC single sign-on, IdP groups as teams, SCIM provisioning</div>
+      <div class="k">Code</div><div class="v">Notebooks, queries, dashboards, metrics and dbt projects synced to a Git repository</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container start">
+    <div>
+      <h2>Running in a minute.</h2>
+      <p class="lead">One container. Open it, create the first account, and drop in a file.</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="{{root}}deploy.html">Deployment options</a>
+        <a class="btn btn-lg" href="{{root}}docs/index.html">Read the docs</a>
+      </div>
+    </div>
+    <div>
+      <span class="code-title">DuckView</span>
+      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>docker run -d --name duckview -p 4200:4200 \
   -v duckview-data:/data -v duckview-meta:/app/meta \
-  -e DUCKVIEW_ADMIN_EMAIL=admin@example.com \
-  -e DUCKVIEW_ADMIN_PASSWORD='change-me' \
   {{image}}:latest
 # → http://localhost:4200</code></pre></div>
+      <span class="code-title">DuckView with the agent</span>
+      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>git clone {{repo}}.git
+cd DuckView
+docker compose --profile agent up --build -d
+# → DuckView on :4200, DuckView Agent on :4300</code></pre></div>
     </div>
   </div>
 </section>

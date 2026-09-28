@@ -1,7 +1,7 @@
 ---
 title: Security model
-order: 4
-group: Guide
+order: 34
+group: Model and govern
 description: Two sandbox layers, one choke point for every query, human-in-the-loop for agents, an encrypted credential vault and workspace-level authorization.
 ---
 

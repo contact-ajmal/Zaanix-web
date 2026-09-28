@@ -1,7 +1,7 @@
 ---
 title: Deployment
 order: 2
-group: Guide
+group: Get started
 description: Docker Hub image, docker run, Docker Compose profiles, Kubernetes manifests, from-source builds, upgrades and CI/CD.
 ---
 
@@ -41,7 +41,7 @@ Useful extra flags:
 
 ## Docker Compose
 
-The repository's `docker-compose.yml` runs DuckView with persistent volumes and three optional profiles:
+The repository's `docker-compose.yml` runs DuckView with persistent volumes and four optional profiles:
 
 ```bash
 cp .env.example .env                              # JWT_SECRET, ENCRYPTION_KEY, admin credentials, POSTGRES_PASSWORD
@@ -49,9 +49,14 @@ docker compose up -d                              # DuckView, SQLite metadata, .
 docker compose --profile postgres up -d           # + PostgreSQL 16 (set DATABASE_URL in .env)
 docker compose --profile ollama up -d             # + Ollama for DuckCopilot (COPILOT_PROVIDER=ollama)
 docker compose --profile observability up -d      # + Prometheus on :9090
+docker compose --profile agent up --build -d      # + DuckView Agent on :4300 (AGENT_MODEL_* in .env)
 ```
 
 Spill space is a tmpfs (`DUCKVIEW_SPILL_SIZE`, default 4g) and the container memory limit is `DUCKVIEW_MEMORY` (default 8g) with `DUCKDB_MEMORY_LIMIT` at 70% so the engine never fights the OS for the last page.
+
+## DuckView Agent
+
+The agent app is its own server and web app on port 4300, next to DuckView; the `agent` profile builds it from `docker/agent.Dockerfile`. Its settings — where it finds DuckView, its secret, the model — are in [DuckView Agent](agent-app.html#configuration). The agent server is one client to DuckView for everyone who uses it, so raise DuckView's per-client rate limit for a team (`DUCKVIEW__server__rate_limit_per_minute=6000`).
 
 ## Kubernetes
 
@@ -63,6 +68,10 @@ kubectl apply -k k8s/
 The kustomization creates a `duckview` namespace, a ConfigMap with `duckview.config.yaml`, a Deployment (liveness `/healthz`, readiness and startup `/readyz`, `runAsNonRoot`, read-only root filesystem, `emptyDir` spill, PVC for `/data`), a Service with `ClientIP` session affinity so SSE streams stay pinned, and Prometheus scrape annotations (`servicemonitor.yaml` for the Operator).
 
 DuckDB engines are process-local — in-memory workspaces live in the pod. Scale vertically first; for more than one replica use PostgreSQL metadata, a RWX volume for `/data` and keep session affinity. The server-side result cache is per pod (still correct, just less warm).
+
+## Cluster mode
+
+For more than one node, run DuckView with PostgreSQL metadata, a ReadWriteMany data volume and `cluster.enabled`: each workspace's engine lives on one node and the others forward to it; scheduled work runs once. Details in [Running DuckView for a team](operations.html#cluster-mode).
 
 ## From source
 
@@ -85,5 +94,5 @@ Metadata migrations are additive and run automatically on start for both SQLite 
 
 ## CI/CD in the repository
 
-- `ci.yml` — typecheck, 240 unit and integration tests (real DuckDB engines, mock Iceberg REST catalog serving real Iceberg tables, mock Databricks workspace, MCP over every transport), build, and `scripts/smoke.mjs` against both the built server and a freshly built image.
+- `ci.yml` — typecheck, the unit and integration tests (real DuckDB engines, mock Iceberg REST catalog serving real Iceberg tables, mock Databricks workspace, MCP over every transport), build, and `scripts/smoke.mjs` against both the built server and a freshly built image.
 - `docker-publish.yml` — multi-arch build and push to Docker Hub + GHCR on `v*` tags, then a smoke test of the pushed tag.

@@ -1,11 +1,11 @@
 ---
-title: Connections & syncs
-order: 7
-group: Guide
-description: One page for every data source — object storage, lakehouse catalogs, PostgreSQL / MySQL / SQLite / DuckDB files, Snowflake / BigQuery / Redshift / ClickHouse / Fabric, Salesforce / HubSpot / Stripe / GA4 / Airtable / Notion, HTTP endpoints and Google Drive / Sheets with your Google account — with health checks, scheduled syncs into a workspace, transformations drafted by Copilot or set by agents, and a run history.
+title: Connections and syncs
+order: 20
+group: Connect
+description: One page for 35 kinds of source — object storage, lakehouse catalogs, databases, warehouses, SaaS applications, HTTP endpoints and Google Drive and Sheets — with health checks, scheduled syncs into a workspace, transformations checked before they save, and a run history.
 ---
 
-**Connections** is where an analyst plugs a source in once and the whole team — and every agent — uses it: *Configured* lists everything with its health and last test (click a connection to open its settings), *Add a source* is the catalog (each card opens the form for that source), *Syncs* are the scheduled loads into the active workspace.
+**Connections** is where an analyst plugs a source in once and the whole team — and every agent — uses it: *Configured* lists everything with its health and last test (click a connection to open its settings), *Add a source* is the catalog (each card opens the form for that source), *Syncs* are the scheduled loads into the active workspace. *Streams* and *Reverse ETL* have their own page: [Streams, CDC and reverse ETL](streams.html).
 
 ## The catalog
 
@@ -16,7 +16,7 @@ description: One page for every data source — object storage, lakehouse catalo
 | Databases | PostgreSQL, MySQL / MariaDB, SQLite files, DuckDB files |
 | Web, Drive & Sheets | HTTP / REST endpoints (CSV, JSON, Parquet, Excel; bearer token or headers), Google Drive, Google Sheets (with your Google account), Google Sheets shared links |
 | Warehouses | Snowflake, Google BigQuery, Amazon Redshift, ClickHouse, Microsoft Fabric / OneLake |
-| SaaS applications | Salesforce, HubSpot, Stripe, Google Analytics 4, Airtable, Notion |
+| SaaS applications | Salesforce, HubSpot, Stripe, Google Analytics 4, Airtable, Notion, GitHub, Jira, Zendesk, Shopify, Intercom, Linear, Pipedrive, Mailchimp |
 
 Every card says what the source can do — **browse** it, **attach** it as `alias.schema.table`, run **remote SQL** on it, **sync** from it — and how it authenticates. Missing one? Ask on GitHub.
 

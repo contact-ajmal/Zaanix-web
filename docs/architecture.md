@@ -1,6 +1,6 @@
 ---
 title: Architecture
-order: 13
+order: 61
 group: Reference
 description: How the pieces fit — the React app, the Fastify server and its single query choke point, one native DuckDB engine per workspace, and the Drizzle metadata store.
 ---
@@ -25,12 +25,12 @@ description: How the pieces fit — the React app, the Fastify server and its si
 │  ResultCache ─ LRU keyed on file stat + workspace data epoch · ETag/304      │
 │  Storage: jailed tree · S3/Azure SDK listings · DESCRIBE-based inspection     │
 │  Lakehouse: Iceberg ATTACH (Glue/S3 Tables/REST/UC) · Databricks SQL API     │
-│  Connections: databases ATTACHed · 13 connectors (warehouses, SaaS, Google)  │
+│  Connections: databases ATTACHed · 21 connectors (warehouses, SaaS, Google)  │
 │               · scheduled syncs with validated transformations              │
 │  Mosaic: exec-policed connector · materialised datasets · spec validation    │
-│  Data apps: Streamlit runner (venv, tokens, health) · cookie proxy /apps/:id │
+│  Data apps: Streamlit/Dash/Gradio · process, Docker, K8s, stlite · own origin│
 │  Copilot: 14 providers, keys write-only · usage per session and token       │
-│  Agent tools: one registry → MCP (25 tools · 4 resources · 5 prompts)        │
+│  Agent tools: one registry → MCP (90 tools · resources · prompts)            │
 │               + REST façade /api/agent/v1/tools + OpenAPI 3.0               │
 ├──────────────────────────────────────────────────────────────────────────────┤
 │ EngineManager ─ one DuckDB instance per workspace (LRU + idle TTL)           │
@@ -56,6 +56,14 @@ Whether it comes from the workbench, a WebSocket stream, a dashboard widget, an 
 4. **Guard** — the lexer classifies statements and rewrites path literals into the jail; extension and setting policies apply.
 5. **Engine** — a fresh DuckDB connection with a timeout (`interrupt()` on cancel), row caps and cell truncation.
 6. **Audit** — one row per execution with actor, workspace, SQL, duration, status; a mutation also moves the data epoch and notifies members over the live feed.
+
+## DuckView Agent
+
+DuckView Agent (`packages/agent-server`, `packages/agent-web`) is a second application next to the platform, not a part of it. Its server has its own store (SQLite: sign-ins, missions, memory, briefs) and runs the agent loop — a decision engine that picks context and tools without a model, a context engine that ranks what the workspace holds within a token budget, and the model — and it calls DuckView over HTTP **as the person**: reads with their session, tools through the REST façade with an agent token minted for their sign-in, so every call meets the same QueryService choke point as above. See [DuckView Agent](agent-app.html).
+
+## Cluster mode
+
+Several nodes can share one PostgreSQL metadata store and a ReadWriteMany data directory. A lease names the node that opens each workspace's DuckDB file; other nodes forward that workspace's queries to it, and scheduled work is claimed by one node at a time. See [Running DuckView for a team](operations.html#cluster-mode).
 
 ## Engines
 

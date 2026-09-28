@@ -1,7 +1,7 @@
 ---
 title: Result cache
-order: 6
-group: Guide
+order: 54
+group: Operate
 description: Why the second profile of a 400 MB CSV takes 3 ms — a server LRU keyed on file fingerprints and a workspace data epoch, plus a browser IndexedDB layer with ETag revalidation.
 ---
 
@@ -42,7 +42,7 @@ Stats: `GET /api/system/live → cache` (also shown in **Settings → Hardware**
 
 ## In the UI
 
-- The Overview page keeps the selected dataset per workspace — navigate away and back and the same profile is on screen instantly; it only changes when you pick a different file or the data actually changed.
+- The Data explorer keeps the selected dataset per workspace — navigate away and back and the same profile is on screen instantly; it only changes when you pick a different file or the data actually changed.
 - A small chip states provenance: *profiled 2 min ago*, *cached · profiled 2 min ago* (restored, being confirmed), *… · shared cache* (served by the server for everyone) or *offline* (the server could not be reached; the cached copy stays). Its refresh icon recomputes through every layer.
 - Dashboard widgets on an interval revalidate with a conditional request — an unchanged workspace costs a `304` per widget instead of a query.
 - After a reload, each tab shows its last result marked *result from 14:02, not re-run*.

@@ -1,11 +1,11 @@
 ---
-title: Data apps (Streamlit)
-order: 9
-group: Guide
-description: Build Streamlit applications directly on a workspace's analytics data — a Python SDK, a code editor with live preview, and a runner that serves the app to the workspace with a read-only, workspace-scoped token.
+title: Data apps
+order: 13
+group: Work with data
+description: Streamlit, Dash and Gradio apps on a workspace's data — a Python SDK, an editor with a live preview, runtimes from a process to Kubernetes or the viewer's browser, scaling to zero, and publishing with review.
 ---
 
-**Apps** turns a workspace into a place where analysts build applications, not only dashboards: a Streamlit app that reads the workspace's tables and files through the `duckview` SDK, edited in DuckView next to a live preview, run by DuckView, and opened by the workspace's members at `/apps/<id>/`.
+**Apps** turns a workspace into a place where analysts build applications, not only dashboards: a **Streamlit**, **Dash** or **Gradio** app that reads the workspace's tables and files through the `duckview` SDK, edited in DuckView next to a live preview, run by DuckView, and opened by the workspace's members.
 
 ## Write one
 
@@ -40,14 +40,35 @@ dv.tools(); dv.call_tool("profile_dataset", file_path_or_table="trips")   # the 
 
 Everything goes through DuckView's HTTP API with a bearer token — the SDK never opens the `.duckdb` file, so the engine keeps its lock and every read carries the caller's role, the sandbox and the audit trail.
 
-## How it runs
+## Frameworks
 
-- **First start** creates a Python virtualenv under `<data dir>/.duckview/apps/venv` with streamlit, pandas, pyarrow and the SDK (about a minute, once); an app's `requirements.txt` is installed before it starts.
-- **Each app** is a `streamlit run` on its own port with a **minimal environment**: only `DUCKVIEW_URL`, `DUCKVIEW_TOKEN` and `DUCKVIEW_WORKSPACE` — never the server's secrets. The token is minted for the app's creator on every start with the `read` scope, scoped to the app's workspace, expiring after 24 hours and revoked when the app stops: an app can query what a viewer could and nothing else.
-- **The proxy** serves the app under `/apps/<id>/` (HTTP and Streamlit's WebSocket). Opening an app from DuckView sets an HttpOnly cookie for `/apps`; every request is checked against the app — workspace members, or everyone signed in when the app's visibility is *org* — and forwarded with the visitor's identity (`X-DuckView-User`, `-Email`, `-Role`, read by `viewer()`). Visiting a stopped app starts it.
-- Health is checked before the app is announced running; a crash shows its last log lines; idle apps stop after 30 minutes; at most five run at once (all configurable under `apps.*`).
+| Framework | Entry | Starts with |
+|---|---|---|
+| Streamlit (default) | `app.py` | `streamlit run` — templates *Table explorer* and *Blank* |
+| Dash | calls `app.run()` | `python app.py` — template *Dash explorer* |
+| Gradio | calls `demo.launch()` | `python app.py` — template *Gradio query* |
 
-Apps execute Python next to the server. `apps.enabled` is on in full filesystem mode and **off in sandboxed mode**; an administrator decides. The container image ships `python3` and `venv` ready for the first start.
+The framework is fixed when the app is created. The visitor's identity reaches every framework in `X-DuckView-User / -Email / -Role` headers (`viewer()` in Streamlit, `duckview.viewer_from_headers(...)` in Dash, `request.headers` in Gradio).
+
+## Where apps run
+
+Each app gets a token minted for its creator on every start — the `read` scope, **scoped to the app's workspace**, expiring, revoked when the app stops — and a minimal environment (`DUCKVIEW_URL`, `DUCKVIEW_TOKEN`, `DUCKVIEW_WORKSPACE`), never the server's secrets. An app can query what a viewer could and nothing else. `apps.runtime` picks where it runs:
+
+| Runtime | Instance | Isolation |
+|---|---|---|
+| `subprocess` (default) | a process on the server, from a shared virtualenv created on the first start | a separate process with a minimal environment |
+| `docker` | a container of `anbproject/duckview-app-runtime` | read-only root, all capabilities dropped, non-root, memory and CPU limits |
+| `kubernetes` | a pod in the server's namespace | non-root, read-only root, no service-account token, resource limits; a NetworkPolicy fences app pods |
+
+**In the viewer's browser.** A Streamlit app can run with `execution: browser` on stlite (Streamlit on Pyodide): no process at all, and it reads **as the viewer**, with a read-only token for the app's workspace.
+
+**Scaling.** Apps scale to zero: unused apps stop after `apps.idle_stop_minutes`, and the next page load starts them again. At `apps.max_running`, the least recently used idle app makes room. Administrators mark apps **always on**: started with the server, never idled out, restarted after a crash.
+
+## Publishing and isolation
+
+- Apps are for the workspace's members until **published** to everyone signed in. With `apps.publish_requires_approval` (the default) an editor's request waits for an administrator's review under **Settings → Data apps**; a code change to an approved app sends it back for review.
+- Apps are **never served from the UI's origin**: a second listener (`apps.port`, the UI's port + 1 — `:4201` by default; `apps.public_url` behind a proxy) serves them, and the browser gets its app cookie there through a one-time handoff. App links can be shared as they are.
+- `apps.enabled` is on in full filesystem mode and **off in sandboxed mode**: apps execute Python next to the server, so an administrator decides.
 
 ## For agents and MCP clients
 

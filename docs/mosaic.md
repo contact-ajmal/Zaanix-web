@@ -1,7 +1,7 @@
 ---
-title: Interactive exploration & Mosaic dashboards
-order: 8
-group: Guide
+title: Dashboards and interactive exploration
+order: 12
+group: Work with data
 description: Cross-filtered charts over millions of rows — the Explore view and spec-driven Mosaic dashboards, computed in the workspace engine through Mosaic's pre-aggregation, never in the browser.
 ---
 
@@ -9,7 +9,7 @@ DuckView embeds [Mosaic](https://idl.uw.edu/mosaic/) (`@uwdata/vgplot`, BSD-3) w
 
 ## Explore view
 
-On the Overview page (*Explore* button) and as a results view in the workbench: every numeric or temporal column becomes a histogram, every low-cardinality text column a bar chart, with a lazily paged table underneath. Brush one chart to cross-filter all the others; click a bar to toggle it; double-click to clear. The view rebuilds whenever the workspace data epoch moves.
+In the Data explorer (*Explore* tab) and as a results view in the workbench: every numeric or temporal column becomes a histogram, every low-cardinality text column a bar chart, with a lazily paged table underneath. Brush one chart to cross-filter all the others; click a bar to toggle it; double-click to clear. The view rebuilds whenever the workspace data epoch moves.
 
 ## Mosaic dashboards
 

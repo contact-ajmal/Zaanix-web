@@ -1,47 +1,54 @@
 ---
 title: Getting started
 order: 1
-group: Guide
-description: From zero to your first profiled dataset, saved query and dashboard in a few minutes.
+group: Get started
+description: From zero to your first query, dashboard and agent mission in a few minutes.
 ---
 
 ## Run DuckView
 
-The quickest path is the multi-arch image on [Docker Hub]({{hub}}):
+The quickest start is the multi-arch image on [Docker Hub]({{hub}}):
 
 ```bash
 docker run -d --name duckview -p 4200:4200 \
   -v duckview-data:/data -v duckview-meta:/app/meta \
   -e JWT_SECRET=$(openssl rand -hex 32) \
   -e ENCRYPTION_KEY=$(openssl rand -hex 32) \
-  -e DUCKVIEW_ADMIN_EMAIL=admin@example.com \
-  -e DUCKVIEW_ADMIN_PASSWORD='change-me-now' \
   {{image}}:latest
 ```
 
-Open **http://localhost:4200** and sign in with the admin credentials you passed. Compose, Kubernetes and from-source installs are covered in [Deployment](deployment.html).
+Open **http://localhost:4200**. The first person to open it creates the administrator account (or set `DUCKVIEW_ADMIN_EMAIL` and `DUCKVIEW_ADMIN_PASSWORD` to create it at start). Compose, Kubernetes, clusters and installs from source are in [Deployment](deployment.html).
 
-> Without `JWT_SECRET` and `ENCRYPTION_KEY` the server starts with ephemeral secrets and warns you: sessions and stored cloud / lakehouse credentials will not survive a restart. Set them for anything beyond a first look.
+> Without `JWT_SECRET` and `ENCRYPTION_KEY` the server starts with secrets generated for that run and warns you: sign-ins and stored credentials will not survive a restart. Set them for anything beyond a first look.
 
-## First workspace
+## Find your way around
 
-The Overview's **data source bar** shows the workspace's data in two sections — *Local* (the data directory, folders mounted from this computer, the workspace's tables; uploads go wherever you choose) and *Remote* (every connection you configured, browsable in place: buckets, catalogs, databases, warehouses, applications, Drive and Sheets) — and profiles whatever you pick. Every user gets **My workspace** on first sign-in — a persistent DuckDB file (`<you>.duckdb` in the data directory), so tables, views and macros survive restarts. Create more from the workspace switcher in the top bar and pick the storage: the **data directory** (a `.duckdb` file, the default), **any folder on the server** (a mounted volume or network share, in full filesystem mode), **cloud storage** (an object in S3, R2, GCS or Azure through one of your cloud connections — DuckDB works on a local copy that is pushed after every quiet minute, on *Sync now* and at shutdown, and pulled by a new instance before its first query), **in-memory scratch** (fastest, cleared when the engine restarts — an amber *memory* badge in the header reminds you), or **MotherDuck** (`md:` database). An in-memory workspace can be made persistent later without losing anything: Settings → Engine → *Make persistent* copies every table, view and macro into a file while the engine is running.
+The rail on the left has eight sections; ⌘K reaches everything from anywhere.
 
-Each workspace is one native DuckDB engine with its own memory, thread and timeout settings (Settings → Engine).
+| Section | What is in it |
+|---|---|
+| **Home** | Recent queries, datasets and dashboards; what changed in your metrics; templates |
+| **Data** | The Data explorer, Prepare, Models (dbt), Metrics, Quality, Catalog, Lineage, Compare and Access policies |
+| **SQL** | The SQL workbench and Notebooks |
+| **Dashboards** | Dashboards, Alerts, Snapshots and Channels |
+| **Apps** | Data apps — Streamlit, Dash and Gradio |
+| **Agents** | What agents are doing, what waits for your approval, DuckView agents, MCP clients and the tools |
+| **Connections** | Configured sources, the source catalog, Syncs, Streams and Reverse ETL |
+| **Settings** | Workspace, appearance, security, integrations, usage and administration |
 
-## Ingest data
+Every person gets **My workspace** on first sign-in — a DuckDB file in the data directory, so tables survive restarts. Create more from the workspace switcher: in the data directory, any folder on the server, cloud storage (S3, R2, GCS, Azure), in memory, or MotherDuck.
 
-Three ways, all ending in the same place — a file the engine can read:
+## Bring in data
 
-1. **Drop files** onto the Overview page (Parquet, CSV/TSV, JSON/NDJSON, Excel, Arrow, `.duckdb`). They land in the workspace data directory.
-2. **Add a folder** from your machine (VS Code-style workspace folders). Files stay where they are; the explorer lists them and SQL can read them by path.
-3. **Connect a source** — the **Connections** page covers S3 / R2 / GCS / Azure buckets, lakehouse catalogs (AWS Glue, S3 Tables, Iceberg REST, Databricks), PostgreSQL / MySQL / SQLite / DuckDB files, Snowflake, BigQuery, Redshift, ClickHouse, Fabric, Salesforce, HubSpot, Stripe, GA4, Airtable, Notion, HTTP endpoints, and Google Drive / Sheets with your Google account. Buckets, catalogs and databases are queried in place; warehouse tables, application objects, Drive files and Sheets tabs are loaded into workspace tables by a **sync** that keeps them fresh on a schedule. See [Connections & syncs](connections.html) and [Lakehouse connectors](lakehouse.html).
+1. **Drop files** — Parquet, CSV/TSV, JSON, Excel, Arrow or `.duckdb` — onto the Data explorer. They land in the workspace's data directory.
+2. **Add a folder** from the machine. Files stay where they are and SQL reads them by path.
+3. **Connect a source** in Connections: buckets, lakehouse catalogs and databases are queried in place; warehouse tables, SaaS objects, Drive files and Sheets tabs are loaded by a **sync** that keeps them fresh. See [Connections and syncs](connections.html).
 
-The Overview page profiles whichever dataset is selected: row and column counts, type mix, null ratios, duplicate rows, min / max / avg per column and distributions — all computed by DuckDB.
+The Data explorer profiles whatever you pick: rows, columns, types, nulls, duplicates, distributions and column detail — all computed by DuckDB.
 
 ## Query
 
-Open the **Query** page. Files are addressed by path relative to the data directory:
+Open **SQL**. Files are addressed by path, relative to the data directory:
 
 ```sql
 SELECT region, sum(revenue) FROM 'sales.parquet' GROUP BY 1;
@@ -49,36 +56,37 @@ SELECT * FROM read_csv('events/*.csv');
 CREATE TABLE top AS SELECT * FROM 'sales.parquet' ORDER BY revenue DESC LIMIT 100;
 ```
 
-Results stream in over WebSocket; press **Stop** on the tab to interrupt. Switch the results pane between the grid, a chart, the plan (`EXPLAIN`) and a `SUMMARIZE` profile. Save a query into the library (folders and tags) with **Save**.
+⌘↵ runs. Switch the result between the grid, a chart, a pivot, a profile and the measured plan. A statement that changes data asks for approval first. **Save** keeps the query in the library; **Notebooks** keep an analysis as cells — see [Notebooks](notebooks.html).
 
-## Dashboards
+![The SQL workbench with a monthly revenue query and its chart]({{root}}assets/img/platform-workbench.jpg)
 
-**Dashboards → New dashboard**, then either a **grid** (KPI cards, bar / line / area / scatter / pie charts, tables and Markdown notes on a drag-and-drop grid, each widget auto-refreshing) or a **Mosaic** dashboard — a declarative spec where every chart cross-filters every other, generated from any table or file in one click, drafted by Copilot, or created by an agent. See [Interactive exploration & Mosaic dashboards](mosaic.html).
+## Build something
 
-## Data apps
-
-**Apps → New app** starts a Streamlit app from a template, from a dashboard or from saved queries. Edit `app.py` next to the live preview — it reads the workspace through the `duckview` SDK — press ⌘S, and share the URL with the workspace. Agents build apps the same way over MCP. See [Data apps](apps.html).
+- **Dashboards → New dashboard**: a **grid** of KPIs, charts, tables, maps and notes, or a cross-filtered **Mosaic** dashboard. See [Dashboards](mosaic.html).
+- **Apps → New app**: a Streamlit, Dash or Gradio app from a template, a dashboard or saved queries. See [Data apps](apps.html).
+- **Ask AI** (the AI button, or ⌘J) sees what is on screen and builds a dashboard or an app from a checked plan.
 
 ## Share with your team
 
-Open the workspace switcher → **Share …** to grant people or teams *viewer*, *editor* or *owner* access. Teams are managed under **Settings → Teams**, or mirrored automatically from your identity provider's group claim over OIDC. Details in [Sharing & teams](sharing.html).
+The workspace switcher's **Share…** grants people or teams *viewer*, *editor* or *owner*. Teams are managed in Settings, or mirrored from your identity provider. See [Sharing and teams](sharing.html) and [Governance](governance.html).
 
-## Connect an AI agent
+## Hand work to an agent
 
-**Settings → MCP** (or the MCP page) registers agents and mints workspace-scoped tokens. The fastest test is Claude Code:
+- **DuckView Agent** is the app for handing over data work: choose the data, say what you need, approve what it changes. Run it with `docker compose --profile agent up --build`; see [DuckView Agent](agent-app.html).
+- **Your own agents** reach DuckView over MCP. Mint a token under **Agents**, then:
 
 ```bash
 claude mcp add --transport http duckview http://localhost:4200/mcp \
   --header "Authorization: Bearer dv_…"
 ```
 
-Ask it to profile a dataset — it will call `list_accessible_data`, `profile_dataset` and `execute_query`, and any mutating statement comes back to you as an approval challenge first. Ask for a dashboard, a pipeline or an app and it walks the `build_mosaic_dashboard`, `build_data_pipeline` or `build_data_app` prompt. See [Agents & MCP](agents.html).
+Any statement that changes data comes back as an approval first. See [MCP, A2A and DuckView AI](agents.html).
 
 ## Where things live
 
 | Path | What |
 |---|---|
-| `/data` (image) · `./data` (source) | The data directory — the filesystem jail for every file DuckDB reads or writes, uploads and exports |
-| `/app/meta/duckview_meta.db` | SQLite metadata (users, workspaces, tabs, dashboards, connections, audit) unless `DATABASE_URL` points at PostgreSQL |
-| `/tmp/duckview_spill` | DuckDB temp directory for spilling; a tmpfs in Compose, an `emptyDir` in Kubernetes |
+| `/data` (image) · `./data` (source) | The data directory: every file DuckDB reads or writes, uploads, exports, workspace files |
+| `/app/meta/duckview_meta.db` | SQLite metadata (users, workspaces, dashboards, connections, audit) unless `DATABASE_URL` points at PostgreSQL |
+| `/tmp/duckview_spill` | DuckDB's spill directory; a tmpfs in Compose, an `emptyDir` in Kubernetes |
 | `duckview.config.yaml` | Configuration with `${VAR:-default}` placeholders; see [Configuration](configuration.html) |

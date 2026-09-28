@@ -1,0 +1,129 @@
+---
+title: DuckView Agent
+description: DuckView Agent is a web app next to DuckView for handing over data work. Choose the context, say what you need, and the agent plans, queries DuckView with your access, and answers with findings, charts and SQL — holding every change for your approval.
+---
+<div class="page-head">
+  <div class="container">
+    <span class="kicker">DuckView Agent</span>
+    <h1>Hand it the question. It works as you, and asks before it changes anything.</h1>
+    <p class="lead">DuckView Agent is a web app next to the platform. You sign in with your DuckView account, choose the data, and say what you need. The agent plans, runs the platform's tools with your permissions, and brings back findings, charts and the SQL behind them.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-lg" href="{{root}}deploy.html#agent">Run the agent</a>
+      <a class="btn btn-lg" href="{{root}}docs/agent-app.html">Read the guide</a>
+    </div>
+    <div class="frame light" style="margin-top:56px"><img src="{{root}}assets/img/agent-mission.jpg" alt="A mission in DuckView Agent: the question, the answer with key findings, the query results as charts, and the canvas with pin, save and CSV actions" width="1440" height="900" loading="eager"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="group" id="missions">
+    <div class="group-head">
+      <h2>Missions, not chats</h2>
+      <p>Each request is a mission you can come back to, continue, duplicate or archive.</p>
+    </div>
+    <div class="details">
+      <div><b>A plan, then the work</b><span>The agent says what it will do, then does it one step at a time. The steps are folded away and one click from the full detail.</span></div>
+      <div><b>Answers with their evidence</b><span>Key findings, and every result as a chart, a table or its SQL — marked "verified metric" when a defined metric answered.</span></div>
+      <div><b>Chosen and found</b><span>The data you chose and the data the agent found are shown apart, so you know what the answer rests on.</span></div>
+      <div><b>What to ask next</b><span>Follow-up suggestions after each answer; @ to mention data and / for common requests.</span></div>
+      <div><b>The canvas</b><span>One result shown large beside the thread: switch the chart, pick the axes, see where the numbers come from.</span></div>
+      <div><b>Live everywhere</b><span>Missions update as they run, in the thread and in the sidebar, grouped as Needs you, Running and Today.</span></div>
+    </div>
+  </div>
+
+  <div class="group" id="context">
+    <div class="group-head">
+      <h2>Context you choose</h2>
+      <p>The data lives beside the prompt, not buried in it. Add it from anywhere you can read it.</p>
+    </div>
+    <div class="details">
+      <div class="frame light"><img src="{{root}}assets/img/agent-home.jpg" alt="The agent home: a prompt with Analyse data chosen, capability chips, sample prompts, and the Context panel" width="1440" height="900" loading="lazy"></div>
+      <div><b>In the workspace</b><span>Tables, views and files, as the catalog shows them to you.</span></div>
+      <div><b>Server files</b><span>Folders and data files on the DuckView server, as its file jail allows.</span></div>
+      <div><b>Remote</b><span>Lakehouse tables (Databricks, Iceberg catalogs), database connections, cloud buckets, or any URL DuckDB can read.</span></div>
+      <div><b>From your computer</b><span>Drop files on the panel; they are uploaded into the workspace and added.</span></div>
+      <div><b>Capabilities</b><span>Analyse data, build a dashboard, chart, check quality, investigate, clean data, notebooks, data apps and metrics — shown when your role allows them.</span></div>
+      <div><b>Sample prompts</b><span>Choosing a capability shows requests written for the data in your context, and points the agent at the right tools first.</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="night" id="control">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">In control</span>
+      <h2>The agent works with your access — and no more.</h2>
+      <p class="lead">Sign-in is passed through to DuckView. Reads use your session; tools use an agent token minted for your sign-in, so DuckView applies your roles, row filters and column masks to every call, and audits it as the agent's.</p>
+    </div>
+    <div class="table-wrap" style="border-color:var(--night-line)">
+      <table class="night-table">
+        <thead><tr><th>What the agent does</th><th>Examples</th><th>By default</th></tr></thead>
+        <tbody>
+          <tr><td>Read</td><td>Queries, profiles, the catalog, lineage</td><td>Runs</td></tr>
+          <tr><td>Create things</td><td>Dashboard widgets, quality checks, notebooks, saved queries</td><td>Goes ahead</td></tr>
+          <tr><td>Change or delete data, or export it</td><td>SQL that changes tables, models, writing files</td><td>Asks you</td></tr>
+          <tr><td>Publish or reach outside DuckView</td><td>Apps and endpoints, alerts, reverse syncs</td><td>Asks you</td></tr>
+          <tr><td>Drop, delete or truncate</td><td>Anything that removes data</td><td>Always asks</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ol class="steps plain" style="margin-top:48px">
+      <li><b>The autonomy dial</b><span>Each person sets Ask me or Go ahead per kind of action. After several approvals in a row, it suggests letting the agent go ahead.</span></li>
+      <li><b>An approvals inbox</b><span>Everything waiting for you, across missions, with the statement and the reason.</span></li>
+      <li><b>An activity log</b><span>What the agent made and every approval — asked, given, declined or automatic.</span></li>
+      <li><b>Private by default</b><span>Missions and briefs are yours. Sharing happens in DuckView, under its access rules.</span></li>
+    </ol>
+  </div>
+</section>
+
+<div class="container">
+  <div class="group" id="keep">
+    <div class="group-head">
+      <h2>Results you keep</h2>
+      <p>Nothing stays trapped in the conversation.</p>
+    </div>
+    <div class="details">
+      <div class="frame light"><img src="{{root}}assets/img/agent-brief.jpg" alt="A brief: the mission as a report page with a summary, key findings and a chart" width="1440" height="900" loading="lazy"></div>
+      <div><b>Pin to a dashboard</b><span>Any result, as a chart or a table, on a new or existing DuckView dashboard.</span></div>
+      <div><b>Save as a query</b><span>The SQL saved in DuckView, or opened there in a query tab.</span></div>
+      <div><b>Briefs</b><span>A mission as a report page — summary, KPI tiles, charts, tables and findings — that you edit, refresh and print.</span></div>
+      <div><b>Shared as a dashboard</b><span>Save a brief as a DuckView dashboard; that is how it is shared, under DuckView's access rules.</span></div>
+      <div><b>Everything it built</b><span>Dashboards, notebooks, apps and checks the agent made open in the platform.</span></div>
+      <div><b>A CSV when you need one</b><span>Download any result, or copy a brief as Markdown.</span></div>
+    </div>
+  </div>
+
+  <div class="group" id="models">
+    <div class="group-head">
+      <h2>Your model</h2>
+      <p>Set one for everyone on the server, or let each person bring their own key.</p>
+    </div>
+    <div class="details">
+      <div><b>Providers</b><span>Anthropic, OpenAI, OpenRouter, Ollama and any OpenAI-compatible endpoint.</span></div>
+      <div><b>Open models understood</b><span>The agent reads the native tool-call formats of open models (Qwen, GLM, Llama, LFM), not only its own.</span></div>
+      <div><b>Keys stay private</b><span>A person's own key is kept in their browser and sent only with their requests.</span></div>
+      <div><b>Cost on record</b><span>Tokens, latency and an estimated cost for every task, by model, from the telemetry API — at your own prices if you set them.</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="band-mist" id="run">
+  <div class="container start">
+    <div>
+      <h2>Run it next to DuckView.</h2>
+      <p class="lead">The agent is its own server and web app, with its own store for missions. It needs a running DuckView and, optionally, a model.</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="{{root}}deploy.html#agent">Deployment</a>
+        <a class="btn btn-lg" href="{{root}}docs/agent-app.html">The guide</a>
+      </div>
+    </div>
+    <div>
+      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>git clone {{repo}}.git
+cd DuckView
+echo "AGENT_MODEL_PROVIDER=anthropic" &gt;&gt; .env
+echo "AGENT_MODEL_API_KEY=sk-ant-…" &gt;&gt; .env
+docker compose --profile agent up --build -d
+# → DuckView on :4200, DuckView Agent on :4300</code></pre></div>
+    </div>
+  </div>
+</section>
