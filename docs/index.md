@@ -5,19 +5,19 @@ group: Get started
 description: From zero to your first query, dashboard and agent mission in a few minutes.
 ---
 
-## Run DuckView
+## Run ZAANIX
 
 The quickest start is the multi-arch image on [Docker Hub]({{hub}}):
 
 ```bash
-docker run -d --name duckview -p 4200:4200 \
-  -v duckview-data:/data -v duckview-meta:/app/meta \
+docker run -d --name zaanix -p 4200:4200 \
+  -v zaanix-data:/data -v zaanix-meta:/app/meta \
   -e JWT_SECRET=$(openssl rand -hex 32) \
   -e ENCRYPTION_KEY=$(openssl rand -hex 32) \
   {{image}}:latest
 ```
 
-Open **http://localhost:4200**. The first person to open it creates the administrator account (or set `DUCKVIEW_ADMIN_EMAIL` and `DUCKVIEW_ADMIN_PASSWORD` to create it at start). Compose, Kubernetes, clusters and installs from source are in [Deployment](deployment.html).
+Open **http://localhost:4200**. The first person to open it creates the administrator account (or set `ZAANIX_ADMIN_EMAIL` and `ZAANIX_ADMIN_PASSWORD` to create it at start). Compose, Kubernetes, clusters and installs from source are in [Deployment](deployment.html).
 
 > Without `JWT_SECRET` and `ENCRYPTION_KEY` the server starts with secrets generated for that run and warns you: sign-ins and stored credentials will not survive a restart. Set them for anything beyond a first look.
 
@@ -32,7 +32,7 @@ The rail on the left has eight sections; ⌘K reaches everything from anywhere.
 | **SQL** | The SQL workbench and Notebooks |
 | **Dashboards** | Dashboards, Alerts, Snapshots and Channels |
 | **Apps** | Data apps — Streamlit, Dash and Gradio |
-| **Agents** | What agents are doing, what waits for your approval, DuckView agents, MCP clients and the tools |
+| **Agents** | What agents are doing, what waits for your approval, ZAANIX agents, MCP clients and the tools |
 | **Connections** | Configured sources, the source catalog, Syncs, Streams and Reverse ETL |
 | **Settings** | Workspace, appearance, security, integrations, usage and administration |
 
@@ -72,21 +72,21 @@ The workspace switcher's **Share…** grants people or teams *viewer*, *editor* 
 
 ## Hand work to an agent
 
-- **DuckView Agent** is the app for handing over data work: choose the data, say what you need, approve what it changes. Run it with `docker compose --profile agent up --build`; see [DuckView Agent](agent-app.html).
-- **Your own agents** reach DuckView over MCP. Mint a token under **Agents**, then:
+- **ZAANIX Agent** is the app for handing over data work: choose the data, say what you need, approve what it changes. Run it with `docker compose --profile agent up --build`; see [ZAANIX Agent](agent-app.html).
+- **Your own agents** reach ZAANIX over MCP. Mint a token under **Agents**, then:
 
 ```bash
-claude mcp add --transport http duckview http://localhost:4200/mcp \
-  --header "Authorization: Bearer dv_…"
+claude mcp add --transport http zaanix http://localhost:4200/mcp \
+  --header "Authorization: Bearer zx_…"
 ```
 
-Any statement that changes data comes back as an approval first. See [MCP, A2A and DuckView AI](agents.html).
+Any statement that changes data comes back as an approval first. See [MCP, A2A and ZAANIX AI](agents.html).
 
 ## Where things live
 
 | Path | What |
 |---|---|
 | `/data` (image) · `./data` (source) | The data directory: every file DuckDB reads or writes, uploads, exports, workspace files |
-| `/app/meta/duckview_meta.db` | SQLite metadata (users, workspaces, dashboards, connections, audit) unless `DATABASE_URL` points at PostgreSQL |
-| `/tmp/duckview_spill` | DuckDB's spill directory; a tmpfs in Compose, an `emptyDir` in Kubernetes |
-| `duckview.config.yaml` | Configuration with `${VAR:-default}` placeholders; see [Configuration](configuration.html) |
+| `/app/meta/zaanix_meta.db` | SQLite metadata (users, workspaces, dashboards, connections, audit) unless `DATABASE_URL` points at PostgreSQL |
+| `/tmp/zaanix_spill` | DuckDB's spill directory; a tmpfs in Compose, an `emptyDir` in Kubernetes |
+| `zaanix.config.yaml` | Configuration with `${VAR:-default}` placeholders; see [Configuration](configuration.html) |

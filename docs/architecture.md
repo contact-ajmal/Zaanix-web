@@ -14,7 +14,7 @@ description: How the pieces fit — the React app, the Fastify server and its si
 │ #/settings       appearance · layout · hardware · engine · storage ·        │
 │                  copilot · account · teams · users                           │
 │ #/mcp            registered agents · framework snippets · OpenAPI · tokens  │
-│ DuckCopilot      dockable AI drawer (Anthropic · OpenAI · Ollama · Bedrock)  │
+│ ZAANIX Bot      dockable AI drawer (Anthropic · OpenAI · Ollama · Bedrock)  │
 └──────────────┬───────────────────────────────────────────────────────────────┘
                │ REST · WS (rows, live events) · SSE (copilot, MCP) · Streamable HTTP
 ┌──────────────▼───────────────────────────────────────────────────────────────┐
@@ -57,13 +57,13 @@ Whether it comes from the workbench, a WebSocket stream, a dashboard widget, an 
 5. **Engine** — a fresh DuckDB connection with a timeout (`interrupt()` on cancel), row caps and cell truncation.
 6. **Audit** — one row per execution with actor, workspace, SQL, duration, status; a mutation also moves the data epoch and notifies members over the live feed.
 
-## DuckView Agent
+## ZAANIX Agent
 
-DuckView Agent (`packages/agent-server`, `packages/agent-web`) is a second application next to the platform, not a part of it. Its server has its own store (SQLite: sign-ins, missions, memory, briefs) and runs the agent loop — a decision engine that picks context and tools without a model, a context engine that ranks what the workspace holds within a token budget, and the model — and it calls DuckView over HTTP **as the person**: reads with their session, tools through the REST façade with an agent token minted for their sign-in, so every call meets the same QueryService choke point as above. See [DuckView Agent](agent-app.html).
+ZAANIX Agent (`packages/agent-server`, `packages/agent-web`) is a second application next to the platform, not a part of it. Its server has its own store (SQLite: sign-ins, missions, memory, briefs) and runs the agent loop — a decision engine that picks context and tools without a model, a context engine that ranks what the workspace holds within a token budget, and the model — and it calls ZAANIX over HTTP **as the person**: reads with their session, tools through the REST façade with an agent token minted for their sign-in, so every call meets the same QueryService choke point as above. See [ZAANIX Agent](agent-app.html).
 
 ## Cluster mode
 
-Several nodes can share one PostgreSQL metadata store and a ReadWriteMany data directory. A lease names the node that opens each workspace's DuckDB file; other nodes forward that workspace's queries to it, and scheduled work is claimed by one node at a time. See [Running DuckView for a team](operations.html#cluster-mode).
+Several nodes can share one PostgreSQL metadata store and a ReadWriteMany data directory. A lease names the node that opens each workspace's DuckDB file; other nodes forward that workspace's queries to it, and scheduled work is claimed by one node at a time. See [Running ZAANIX for a team](operations.html#cluster-mode).
 
 ## Engines
 

@@ -19,7 +19,7 @@ Messages are written in micro-batches. A JSON object's fields become columns; th
 
 A stream can **mirror** a table instead of appending: inserts and updates replace each key's row, deletes remove it. With *Keep a history of changes*, every change is also appended to `<table>__changes` with its operation.
 
-- **Postgres CDC** reads a table through logical replication. DuckView creates the publication and slot, optionally copies the existing rows first, creates the table with the source's types, then applies changes — acknowledging the WAL only after each batch is written. It needs `wal_level = logical` and a user with REPLICATION; *Test connection* checks both. Removing the stream drops its slot.
+- **Postgres CDC** reads a table through logical replication. ZAANIX creates the publication and slot, optionally copies the existing rows first, creates the table with the source's types, then applies changes — acknowledging the WAL only after each batch is written. It needs `wal_level = logical` and a user with REPLICATION; *Test connection* checks both. Removing the stream drops its slot.
 - **Debezium change events** on a Kafka topic or an HTTP push cover MySQL, SQL Server, Oracle, MongoDB and anything else Debezium captures.
 - **Any JSON feed** can mirror too, with *Keep the latest per key*.
 

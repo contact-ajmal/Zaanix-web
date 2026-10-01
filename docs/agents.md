@@ -1,11 +1,11 @@
 ---
-title: MCP, A2A and DuckView AI
+title: MCP, A2A and ZAANIX AI
 order: 41
 group: AI and agents
-description: The MCP server (stdio, SSE, Streamable HTTP), the REST/OpenAPI façade, registered agents with per-framework snippets, human-in-the-loop approval, and DuckCopilot.
+description: The MCP server (stdio, SSE, Streamable HTTP), the REST/OpenAPI façade, registered agents with per-framework snippets, human-in-the-loop approval, and ZAANIX Bot.
 ---
 
-DuckView treats agents as first-class users. **One tool registry** backs three surfaces, so they can never drift:
+ZAANIX treats agents as first-class users. **One tool registry** backs three surfaces, so they can never drift:
 
 - **MCP server** — stdio, legacy SSE and Streamable HTTP; 90 tools, with resources and guided prompts.
 - **REST façade** — `GET /api/agent/v1/tools` (names, descriptions, JSON-schema inputs) and `POST /api/agent/v1/tools/<tool>` (returns `{text, structured, is_error}`; invalid arguments → 400).
@@ -15,14 +15,14 @@ DuckView treats agents as first-class users. **One tool registry** backs three s
 
 | Mode | How |
 |---|---|
-| stdio | `duckview mcp --token dv_… [--workspace <id>]` (or `DUCKVIEW_API_TOKEN`) — stdout is JSON-RPC only, logs go to stderr |
-| SSE (2024-11-05) | `GET /mcp/sse` + `POST /mcp/messages?sessionId=…` with `Authorization: Bearer dv_…` |
-| Streamable HTTP (2025-03-26) | `POST/GET/DELETE /mcp` with `Authorization: Bearer dv_…` and `mcp-session-id` |
+| stdio | `zaanix mcp --token zx_… [--workspace <id>]` (or `ZAANIX_API_TOKEN`) — stdout is JSON-RPC only, logs go to stderr |
+| SSE (2024-11-05) | `GET /mcp/sse` + `POST /mcp/messages?sessionId=…` with `Authorization: Bearer zx_…` |
+| Streamable HTTP (2025-03-26) | `POST/GET/DELETE /mcp` with `Authorization: Bearer zx_…` and `mcp-session-id` |
 
 Tokens need the `mcp` scope (plus `write` for mutations and `admin` for administrative SQL). A token may be pinned to one workspace; otherwise pass `workspace_id` to tools or `?workspace_id=` on connect.
 
 ```bash
-claude mcp add --transport http duckview http://localhost:4200/mcp --header "Authorization: Bearer dv_…"
+claude mcp add --transport http zaanix http://localhost:4200/mcp --header "Authorization: Bearer zx_…"
 ```
 
 ## Tools
@@ -60,7 +60,7 @@ The table above is the core. The other tools, by area (the **Tools** tab of the 
 | Governance | `get_lineage`, `annotate_table`, `scan_pii`, `tag_pii`, `protect_pii` |
 | Delivery and publishing | `list_alerts`, `create_alert`, `run_alert`, `list_endpoints`, `publish_endpoint`, `list_reverse_syncs`, `create_reverse_sync`, `run_reverse_sync`, `list_streams` |
 | Collaboration | `list_comments`, `add_comment`, `list_templates`, `install_template` |
-| Agents | `list_agents`, `ask_agent` (DuckView agents and remote A2A agents) |
+| Agents | `list_agents`, `ask_agent` (ZAANIX agents and remote A2A agents) |
 | The workspace | `workspace_health`, `list_backups`, `backup_workspace`, `create_stream`, `git_status`, `git_commit`, `get_usage` |
 
 Anything that changes data, publishes or reaches outside waits for approval (below).
@@ -75,21 +75,21 @@ Any mutating statement from an MCP / API-token actor returns an `approval_requir
 
 ## Registered agents
 
-The **Agents** page (*MCP clients*) registers the agents that call DuckView and gives each one a dedicated, workspace-scoped token (`read + mcp`, optionally `write` — mutations are still held for approval). Every tool call is attributed to the agent (call/error counters, "last seen", the live inspector shows the agent name and whether it came over MCP or REST). Copy-paste snippets are generated per framework with the token substituted:
+The **Agents** page (*MCP clients*) registers the agents that call ZAANIX and gives each one a dedicated, workspace-scoped token (`read + mcp`, optionally `write` — mutations are still held for approval). Every tool call is attributed to the agent (call/error counters, "last seen", the live inspector shows the agent name and whether it came over MCP or REST). Copy-paste snippets are generated per framework with the token substituted:
 
 | Framework | Integration |
 |---|---|
 | **Strands Agents** | `MCPClient(lambda: streamablehttp_client(url, headers=…))` → `Agent(tools=…)` |
 | **LangGraph** / **LangChain** | `langchain-mcp-adapters` `MultiServerMCPClient` → `create_react_agent` / `create_agent` |
 | **CrewAI** | `MCPServerAdapter({url, transport: "streamable-http", headers})` |
-| **AgentCore Runtime** | `BedrockAgentCoreApp` entrypoint deployable with the starter toolkit; DuckView can invoke it back (`InvokeAgentRuntime`) from the Agents page or as a Copilot backend |
-| **AgentCore Gateway** | DuckView as an MCP server target or an OpenAPI target (API-key credential provider holding the DuckView token) |
+| **AgentCore Runtime** | `BedrockAgentCoreApp` entrypoint deployable with the starter toolkit; ZAANIX can invoke it back (`InvokeAgentRuntime`) from the Agents page or as a Copilot backend |
+| **AgentCore Gateway** | ZAANIX as an MCP server target or an OpenAPI target (API-key credential provider holding the ZAANIX token) |
 | **Bedrock Agents (Classic)** | Action group from the generated OpenAPI document + a Lambda forwarder to the REST façade |
 | **Custom / HTTP** | `curl`, Python `requests`, or any MCP client config |
 
 Endpoints: `GET/POST /api/agents`, `GET/PATCH/DELETE /api/agents/:id`, `POST /api/agents/:id/rotate-token`, `GET /api/agents/:id/snippets`, `POST /api/agents/:id/test`, `POST /api/agents/:id/invoke` (SSE), `GET /api/agents/discover?kind=…`, `GET /api/agents/frameworks`.
 
-## DuckCopilot
+## ZAANIX Bot
 
 An in-app assistant docked beside the workbench and the dashboard builder. Every turn is hydrated with the workspace's tables and views (columns + types), the data files in the jail, the configured cloud buckets, the SQL in the active tab and — for selected files or tables — `SUMMARIZE` statistics.
 
@@ -98,15 +98,15 @@ An in-app assistant docked beside the workbench and the dashboard builder. Every
 | **Anthropic** | Official SDK, streaming, `claude-opus-5` by default |
 | **OpenAI** · **Ollama** | `gpt-4o`, or any local model over the OpenAI-compatible endpoint |
 | **Amazon Bedrock** | Converse streaming with model / inference-profile discovery |
-| **Bedrock Agent** · **AgentCore runtime** | Route the drawer to your deployed agent; DuckView passes the workspace context along as `payload.context` |
+| **Bedrock Agent** · **AgentCore runtime** | Route the drawer to your deployed agent; ZAANIX passes the workspace context along as `payload.context` |
 
 Providers: Claude, ChatGPT / OpenAI, Gemini, DeepSeek, OpenRouter, Kimi, Groq, Mistral, Grok, a local Ollama, any OpenAI-compatible endpoint, and Amazon Bedrock / Bedrock Agent / AgentCore. **Settings → Copilot** is the console: pick a vendor card, paste a key (linked to the vendor's console), *Test connection*, *Save for everyone* — stored encrypted, applied immediately, overriding `copilot.*` in the config file; people can also bring their own key (kept in the browser, sent per request, never stored). The **Usage** panel lists the sessions running now and tokens per day, model and person. Actions: *Insert into tab*, *New tab*, *Run & inspect* (executes, then explains the result in business language), *Fix my query*, *Suggest questions*, *Build dashboard* (drafts a Mosaic dashboard spec, validated against your data and created in one click — see [Mosaic dashboards](mosaic.html)). Conversations persist with the context snapshot of each turn.
 
 `POST /api/copilot/chat` streams SSE events (`context` → `delta`* → `done` | `error`); `GET /api/copilot/config` · `GET /api/copilot/providers` · `POST /api/copilot/models` · `GET/PUT/DELETE /api/copilot/settings` + `POST /api/copilot/settings/test` (administrators) · `GET /api/copilot/usage` · `GET /api/copilot/conversations` · `GET /api/copilot/messages` · `DELETE /api/copilot/conversations/:id`.
 
-## DuckView agents and the marketplace
+## ZAANIX agents and the marketplace
 
-**Agents → DuckView agents** runs agents DuckView hosts itself: instructions, a task for scheduled runs, the tools they may use (read-only), a limit on tool calls, a schedule and channels for their reports. The marketplace installs ready-made ones in one click:
+**Agents → ZAANIX agents** runs agents ZAANIX hosts itself: instructions, a task for scheduled runs, the tools they may use (read-only), a limit on tool calls, a schedule and channels for their reports. The marketplace installs ready-made ones in one click:
 
 | Agent | Does | Default schedule |
 |---|---|---|
@@ -120,9 +120,9 @@ Providers: Claude, ChatGPT / OpenAI, Gemini, DeepSeek, OpenRouter, Kimi, Groq, M
 
 ## Agent2Agent (A2A)
 
-DuckView speaks A2A (protocol 0.3) both ways. A DuckView agent with *Other agents can call it* gets a public Agent Card and a JSON-RPC endpoint (`message/send`, `message/stream`, `tasks/get`, `tasks/cancel`); each call runs **as the caller**, read-only, under their access policies. Under *Agents you can ask*, add a remote agent by its card's URL; `list_agents` and `ask_agent` let DuckView's AI and agents hand it a question. Calls go through the same egress guard as webhooks.
+ZAANIX speaks A2A (protocol 0.3) both ways. A ZAANIX agent with *Other agents can call it* gets a public Agent Card and a JSON-RPC endpoint (`message/send`, `message/stream`, `tasks/get`, `tasks/cancel`); each call runs **as the caller**, read-only, under their access policies. Under *Agents you can ask*, add a remote agent by its card's URL; `list_agents` and `ask_agent` let ZAANIX's AI and agents hand it a question. Calls go through the same egress guard as webhooks.
 
-## DuckView Agent
+## ZAANIX Agent
 
-For people rather than programs, [DuckView Agent](agent-app.html) is a separate web app on top of these tools: missions, a context panel, approvals with an autonomy dial, and briefs — working as the signed-in person.
+For people rather than programs, [ZAANIX Agent](agent-app.html) is a separate web app on top of these tools: missions, a context panel, approvals with an autonomy dial, and briefs — working as the signed-in person.
 

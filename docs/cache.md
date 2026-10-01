@@ -23,7 +23,7 @@ On a 387 MB CSV (`yellow_tripdata`), the Overview profile — `SUMMARIZE`, count
 
 The cache key — which is also the HTTP `ETag` — embeds:
 
-- the absolute path, size and mtime of **every local file** the operation reads (extracted from the SQL's string literals or the bare target), so a file rewritten outside DuckView invalidates;
+- the absolute path, size and mtime of **every local file** the operation reads (extracted from the SQL's string literals or the bare target), so a file rewritten outside ZAANIX invalidates;
 - the workspace **data epoch** (`workspaces.data_version`) for anything that can read in-database tables. The epoch moves on every non-read statement (even a failed script), `save_dataset`, uploads and deletions, folder changes, engine restart / settings change, transfer, lakehouse connection changes, and whenever a `:memory:` engine (re)starts — because that drops every table. Pure file targets do not embed it, so a `CREATE TABLE` never throws away a 10 s profile of a 400 MB CSV;
 - the paging / limit options.
 
@@ -34,11 +34,11 @@ SQL that names an attached lakehouse alias, a remote URI (`s3://…`) or runs on
 `POST /api/workspaces/:id/overview | /profile | /explain | /query`, `POST /api/storage/inspect` and `POST /api/dashboards/:id/widgets/:wid/data` answer with `ETag: "<key>"` and `cached` / `computed_at` in the body.
 
 - Send `If-None-Match` to get a `304` when the key still matches — one `stat` and a hash, no DuckDB work.
-- `refresh: true` in the body (or `X-DuckView-Refresh: 1`) recomputes and re-stores.
+- `refresh: true` in the body (or `X-ZAANIX-Refresh: 1`) recomputes and re-stores.
 - `GET /api/workspaces` carries each workspace's `data_version`; the live feed (`WS /api/ws/events`) pushes `{type: "workspace", workspace_id, data_version, reason}` to every member when it moves, and the query WebSocket's `done` message includes it after a mutation.
 - `DELETE /api/workspaces/:id/cache` (editor) drops the workspace's server entries **and** moves the epoch so every browser recomputes; `POST /api/admin/cache/clear` empties the server cache.
 
-Stats: `GET /api/system/live → cache` (also shown in **Settings → Hardware**), Prometheus `duckview_cache_lookups_total{kind,result}`, `duckview_cache_bytes`, `duckview_cache_entries`.
+Stats: `GET /api/system/live → cache` (also shown in **Settings → Hardware**), Prometheus `zaanix_cache_lookups_total{kind,result}`, `zaanix_cache_bytes`, `zaanix_cache_entries`.
 
 ## In the UI
 

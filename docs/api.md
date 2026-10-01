@@ -2,12 +2,12 @@
 title: HTTP API, CLI and observability
 order: 60
 group: Reference
-description: Every endpoint group, the uniform error shape, the duckview CLI, Prometheus metrics and OpenTelemetry traces.
+description: Every endpoint group, the uniform error shape, the zaanix CLI, Prometheus metrics and OpenTelemetry traces.
 ---
 
 ## HTTP API
 
-All API routes live under `/api` and take `Authorization: Bearer <jwt>` (UI sessions) or `Authorization: Bearer dv_…` (API tokens).
+All API routes live under `/api` and take `Authorization: Bearer <jwt>` (UI sessions) or `Authorization: Bearer zx_…` (API tokens).
 
 | Area | Endpoints |
 |---|---|
@@ -48,19 +48,19 @@ Uniform JSON: `{ error, message, request_id, challenge? }`.
 ## CLI
 
 ```
-duckview serve [--port] [--host]
-duckview mcp [--token dv_…|--user email] [--workspace id]
-duckview migrate
-duckview create-user --email … --password … [--role ADMIN|USER|READ_ONLY]
-duckview create-token --email … --name … [--scopes read,write,mcp] [--workspace id] [--days n]
-duckview config
+zaanix serve [--port] [--host]
+zaanix mcp [--token zx_…|--user email] [--workspace id]
+zaanix migrate
+zaanix create-user --email … --password … [--role ADMIN|USER|READ_ONLY]
+zaanix create-token --email … --name … [--scopes read,write,mcp] [--workspace id] [--days n]
+zaanix config
 ```
 
-In the image the binary is `/app/server/dist/cli.js`, so `docker exec duckview node /app/server/dist/cli.js create-user --email …`.
+In the image the binary is `/app/server/dist/cli.js`, so `docker exec zaanix node /app/server/dist/cli.js create-user --email …`.
 
 ## Observability
 
 - **Logs:** pino structured JSON (pretty in dev TTYs), `x-request-id` propagated.
-- **Metrics (`/metrics`):** `duckview_queries_total{actor,class,status}`, `duckview_query_duration_seconds`, `duckview_query_rows_returned`, `duckview_active_queries`, `duckview_engines_active`, `duckview_mcp_connections_active{transport}`, `duckview_mcp_tool_calls_total{tool,status}`, `duckview_mcp_tool_duration_seconds`, `duckview_mcp_hitl_challenges_total`, `duckview_sandbox_violations_total{actor}`, `duckview_ws_connections_active`, `duckview_cache_lookups_total{kind,result}`, `duckview_cache_bytes`, `duckview_cache_entries`, `duckview_copilot_*`, host/DuckDB memory gauges, plus Node process defaults.
+- **Metrics (`/metrics`):** `zaanix_queries_total{actor,class,status}`, `zaanix_query_duration_seconds`, `zaanix_query_rows_returned`, `zaanix_active_queries`, `zaanix_engines_active`, `zaanix_mcp_connections_active{transport}`, `zaanix_mcp_tool_calls_total{tool,status}`, `zaanix_mcp_tool_duration_seconds`, `zaanix_mcp_hitl_challenges_total`, `zaanix_sandbox_violations_total{actor}`, `zaanix_ws_connections_active`, `zaanix_cache_lookups_total{kind,result}`, `zaanix_cache_bytes`, `zaanix_cache_entries`, `zaanix_copilot_*`, host/DuckDB memory gauges, plus Node process defaults.
 - **Traces:** `duckdb.query` and `mcp.tool.<name>` spans (`db.system`, `db.statement`, workspace, actor, statement class) via OpenTelemetry; exported over OTLP/HTTP when `observability.otel.enabled`.
 - **Probes:** `/healthz` (liveness) and `/readyz` (metadata store, data directory, DuckDB).

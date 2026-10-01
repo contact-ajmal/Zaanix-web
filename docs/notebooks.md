@@ -36,7 +36,7 @@ An input cell — text, number, date or a list of options — named `region` is 
 - **Export as Markdown**: text as it is, SQL in fenced blocks, outputs as tables.
 - **Version history** keeps every save; see [Governance](governance.html#version-history).
 
-DuckView AI sees the open notebook and writes SQL that fits it (*Add as cell*, *Run & inspect*). Agents create notebooks (`create_notebook`, running the cells by default) and run them (`run_notebook`); cells that write need approval.
+ZAANIX AI sees the open notebook and writes SQL that fits it (*Add as cell*, *Run & inspect*). Agents create notebooks (`create_notebook`, running the cells by default) and run them (`run_notebook`); cells that write need approval.
 
 ## Comments and mentions
 
@@ -44,4 +44,4 @@ Conversations sit next to the data: a thread on a **notebook** or one of its cel
 
 - Anyone who can see the workspace comments, viewers included. Editors and the thread's author resolve and reopen threads.
 - Type `@` to mention someone with access to the workspace. They get an item in their **inbox** (the bell in the top bar) and, with a mail server set up, an email with a link to the thread. Everyone in a thread hears about each reply.
-- DuckView AI sees a notebook's open threads; agents read and add comments (`list_comments`, `add_comment`).
+- ZAANIX AI sees a notebook's open threads; agents read and add comments (`list_comments`, `add_comment`).

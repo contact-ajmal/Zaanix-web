@@ -11,11 +11,11 @@ description: SQL alerts and scheduled snapshots delivered to Slack, Teams, email
 
 | Type | What arrives |
 |---|---|
-| Slack | Block Kit: title, text, fields, the snapshot image, an *Open in DuckView* button |
+| Slack | Block Kit: title, text, fields, the snapshot image, an *Open in ZAANIX* button |
 | Microsoft Teams | An Adaptive Card through a Workflows or incoming webhook |
 | Email | HTML and text through the server's SMTP settings; a snapshot inline, the PDF attached |
 | PagerDuty | Events API v2: *trigger* and *resolve* with a stable dedup key |
-| Webhook | JSON with an HMAC signature (`X-DuckView-Signature`) and a signing secret shown once |
+| Webhook | JSON with an HMAC signature (`X-ZAANIX-Signature`) and a signing secret shown once |
 
 Secrets are encrypted and write-only. Every URL passes an **egress guard**: https only, public addresses only, no redirects — checked at connection time, so there is no DNS-rebinding window. Deliveries are retried on network errors and 5xx, and logged.
 
@@ -33,11 +33,11 @@ Secrets are encrypted and write-only. Every URL passes an **egress guard**: http
 
 ## Signed embeds
 
-**Settings → Embedding** puts a dashboard or a notebook inside your own application, with no DuckView sign-in for its viewers.
+**Settings → Embedding** puts a dashboard or a notebook inside your own application, with no ZAANIX sign-in for its viewers.
 
 1. A workspace owner creates an **embed key** (its secret shown once) and the sites allowed to frame it.
 2. For each page view, **your server** signs a short-lived HS256 token naming the object, the viewer and attributes such as `{"tenant": "acme"}`. Settings shows a Node.js and a Python function that does it.
-3. The iframe loads `https://<duckview>/embed/view?token=…`.
+3. The iframe loads `https://<zaanix>/embed/view?token=…`.
 
 An embed can load that one object and nothing else. Every request is checked again, so revoking a key stops all its embeds. An [access policy](governance.html#access-policies) that applies to embeds filters rows per viewer: `tenant = {{embed.tenant}}`.
 
@@ -47,4 +47,4 @@ Publish a read-only SELECT at `GET /q/<slug>`: callers pass `{{name}}` parameter
 
 ## Templates
 
-**Home → Templates** installs ready-made analytics — saved queries, dashboards, notebooks, metrics and quality checks — in one step: E-commerce sales, SaaS subscriptions, Web analytics and Support tickets are built in, with sample data. Installing maps the template's tables to yours and checks the columns first; a failed install removes what it created. Publish your own from a workspace, or move them as `.duckview-template.json` files.
+**Home → Templates** installs ready-made analytics — saved queries, dashboards, notebooks, metrics and quality checks — in one step: E-commerce sales, SaaS subscriptions, Web analytics and Support tickets are built in, with sample data. Installing maps the template's tables to yours and checks the columns first; a failed install removes what it created. Publish your own from a workspace, or move them as `.zaanix-template.json` files.

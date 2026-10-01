@@ -13,15 +13,15 @@ description: Row filters and column masks enforced on every query, the catalog a
 - **column masks** — `null`, `redact` (`••••`), `hash`, `partial` (all but the last four characters) or an expression;
 - **whom it applies to** — roles, people, teams, or everyone. Owners are never restricted.
 
-Enforcement sits where every query meets the engine. DuckView parses each statement with DuckDB's own parser and replaces every reference to a protected table — however it is named or aliased, in joins, subqueries and CTEs — with a filtered, masked subquery, then runs the result. So the policy holds for the SQL workbench, dashboards, Mosaic, notebooks, alerts, snapshots, BI tools over the Postgres protocol, the AI and agents alike. People under a policy run SELECT statements only, cannot read the files a table came from, and cannot use views that read a protected table. **Preview** shows the rewritten SQL and the rows a member would see.
+Enforcement sits where every query meets the engine. ZAANIX parses each statement with DuckDB's own parser and replaces every reference to a protected table — however it is named or aliased, in joins, subqueries and CTEs — with a filtered, masked subquery, then runs the result. So the policy holds for the SQL workbench, dashboards, Mosaic, notebooks, alerts, snapshots, BI tools over the Postgres protocol, the AI and agents alike. People under a policy run SELECT statements only, cannot read the files a table came from, and cannot use views that read a protected table. **Preview** shows the rewritten SQL and the rows a member would see.
 
 A policy that applies to **embeds** filters what signed embeds show — `tenant = {{embed.tenant}}` gives each customer their own rows.
 
 ## Catalog and lineage
 
-**Data → Catalog**: descriptions and tags (`pii`, `finance`) on tables, views and columns, written by editors and read by everyone — including DuckView AI and agents, which are told to trust them over guesses from names.
+**Data → Catalog**: descriptions and tags (`pii`, `finance`) on tables, views and columns, written by editors and read by everyone — including ZAANIX AI and agents, which are told to trust them over guesses from names.
 
-**Data → Lineage** is built from what DuckView knows, using DuckDB's parser on the SQL: syncs load tables; views, saved queries, dashboards, alerts and syncs read tables and files; dbt projects build models; data apps mention tables; snapshots render dashboards. Trace a table to see only what feeds it and what it feeds. With `lineage.openlineage_url` set, every sync run posts OpenLineage events for Marquez, DataHub or OpenMetadata.
+**Data → Lineage** is built from what ZAANIX knows, using DuckDB's parser on the SQL: syncs load tables; views, saved queries, dashboards, alerts and syncs read tables and files; dbt projects build models; data apps mention tables; snapshots render dashboards. Trace a table to see only what feeds it and what it feeds. With `lineage.openlineage_url` set, every sync run posts OpenLineage events for Marquez, DataHub or OpenMetadata.
 
 ![Lineage traced from a sales file to its views, an app and a dashboard](../assets/img/platform-lineage.jpg)
 

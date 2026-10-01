@@ -2,26 +2,26 @@
 title: Configuration
 order: 3
 group: Get started
-description: duckview.config.yaml, environment overrides and every setting that matters — security, database, auth, DuckDB, MCP, lakehouse, Copilot, cache and observability.
+description: zaanix.config.yaml, environment overrides and every setting that matters — security, database, auth, DuckDB, MCP, lakehouse, Copilot, cache and observability.
 ---
 
 ## How configuration is resolved
 
-`duckview.config.yaml` is loaded from `$DUCKVIEW_CONFIG`, `./duckview.config.yaml`, or `/etc/duckview/duckview.config.yaml`. Values may reference environment variables with `${VAR}` / `${VAR:-default}` (nesting allowed). Later sources win:
+`zaanix.config.yaml` is loaded from `$ZAANIX_CONFIG`, `./zaanix.config.yaml`, or `/etc/zaanix/zaanix.config.yaml`. Values may reference environment variables with `${VAR}` / `${VAR:-default}` (nesting allowed). Later sources win:
 
 1. Built-in defaults
 2. The YAML file
-3. Well-known short names (`PORT`, `JWT_SECRET`, `ENCRYPTION_KEY`, `DUCKVIEW_DATA_DIR`, `DATABASE_URL`, `OIDC_*`, `DUCKDB_MEMORY_LIMIT`, …)
-4. Generic overrides `DUCKVIEW__<SECTION>__<KEY>` — for example `DUCKVIEW__DUCKDB__MAX_RESULT_ROWS=1000`
+3. Well-known short names (`PORT`, `JWT_SECRET`, `ENCRYPTION_KEY`, `ZAANIX_DATA_DIR`, `DATABASE_URL`, `OIDC_*`, `DUCKDB_MEMORY_LIMIT`, …)
+4. Generic overrides `ZAANIX__<SECTION>__<KEY>` — for example `ZAANIX__DUCKDB__MAX_RESULT_ROWS=1000`
 
-The final object is validated with zod; the process refuses to start on invalid configuration. The effective, redacted config is available with `duckview config` and `GET /api/admin/config`.
+The final object is validated with zod; the process refuses to start on invalid configuration. The effective, redacted config is available with `zaanix config` and `GET /api/admin/config`.
 
 ## security
 
 | Setting | Notes |
 |---|---|
 | `jwt_secret`, `encryption_key` | Required in `NODE_ENV=production`; ephemeral (with a warning) in development. `encryption_key` is a 32-byte hex string. |
-| `data_jail_directory` | Every DuckDB file read/write is confined here (`DUCKVIEW_DATA_DIR`). |
+| `data_jail_directory` | Every DuckDB file read/write is confined here (`ZAANIX_DATA_DIR`). |
 | `filesystem_mode` | `full` (default, VS Code-like): add any local folder to the explorer, query files anywhere on the host, cloud sources on. `sandboxed` (multi-tenant): everything confined to the data directory, external access off unless enabled. |
 | `enable_external_access` | `false` blocks S3/GCS/HTTP/MotherDuck and extension installs in sandboxed mode. |
 | `lock_configuration` | DuckDB refuses `SET`/`PRAGMA` on hardened settings from any connection. |
@@ -31,7 +31,7 @@ The final object is validated with zod; the process refuses to start on invalid 
 
 ## database
 
-`metadata_url` — `sqlite://duckview_meta.db` (default) or `postgres://user:pass@host:5432/db`; `run_migrations` (default true) applies migrations at start.
+`metadata_url` — `sqlite://zaanix_meta.db` (default) or `postgres://user:pass@host:5432/db`; `run_migrations` (default true) applies migrations at start.
 
 ## auth
 
@@ -42,7 +42,7 @@ The final object is validated with zod; the process refuses to start on invalid 
 | `oidc.admin_emails` | Promotes SSO users to ADMIN. |
 | `oidc.groups_claim` | Claim carrying the user's IdP groups (default `groups`; Entra may use `roles`). |
 | `oidc.admin_groups` | IdP groups whose members become ADMIN on login (never demoted). |
-| `oidc.sync_groups` | Mirror IdP groups into DuckView teams on every login (default on). See [Sharing & teams](sharing.html). |
+| `oidc.sync_groups` | Mirror IdP groups into ZAANIX teams on every login (default on). See [Sharing & teams](sharing.html). |
 | `bootstrap_admin.email` / `password` | Created on first start when no users exist. |
 
 ## duckdb
@@ -89,7 +89,7 @@ See [Result cache](cache.html) for how keys are built.
 | Setting | Notes |
 |---|---|
 | `enabled` | The Mosaic connector endpoint behind the Explore view and Mosaic dashboards (default on). |
-| `schema` | Schema for Mosaic's pre-aggregated tables (default `duckview_mosaic`); source views are `<schema>_src_<hash>` in the main schema. Both are dropped when the data epoch moves and hidden from catalogs. |
+| `schema` | Schema for Mosaic's pre-aggregated tables (default `zaanix_mosaic`); source views are `<schema>_src_<hash>` in the main schema. Both are dropped when the data epoch moves and hidden from catalogs. |
 | `max_rows` | Row ceiling for chart queries, independent of the grid cap (default 1 000 000). |
 | `materialize_max_rows` | Dashboard datasets up to this many rows are materialised once into an attached in-memory database so interactions read memory instead of re-parsing files (default 20 000 000; `0` = always views). |
 | `rate_limit_per_minute` | The connector's own budget, per session rather than per IP (default 6 000; `0` = unlimited). A brush over 25 charts is 25–75 requests, so the global `server.rate_limit_per_minute` no longer throttles dashboards. |
@@ -98,14 +98,14 @@ See [Interactive exploration & Mosaic dashboards](mosaic.html).
 
 ## apps
 
-Streamlit data apps run by DuckView (see [Data apps](apps.html)).
+Streamlit data apps run by ZAANIX (see [Data apps](apps.html)).
 
 | Setting | Notes |
 |---|---|
 | `enabled` | Default: on in `filesystem_mode: full`, off in `sandboxed` — apps execute Python next to the server. |
 | `runtime` | `subprocess` (a `streamlit run` per app). |
 | `python` | Interpreter used to create the virtualenv (needs `venv` and `pip`; default `python3`). |
-| `venv_dir` | The shared virtualenv (default `<data dir>/.duckview/apps/venv`). |
+| `venv_dir` | The shared virtualenv (default `<data dir>/.zaanix/apps/venv`). |
 | `auto_install` | Create the virtualenv and install streamlit, pandas, pyarrow and the SDK on first start (default on). |
 | `allow_requirements` | Install each app's `requirements.txt` before it starts (default on). |
 | `max_running`, `idle_stop_minutes` | At most this many apps at once (5); stop an app nobody used for this long (30). |
@@ -124,14 +124,14 @@ Streamlit data apps run by DuckView (see [Data apps](apps.html)).
 ```yaml
 server:
   port: ${PORT:-4200}
-  public_url: "${DUCKVIEW_PUBLIC_URL:-}"
+  public_url: "${ZAANIX_PUBLIC_URL:-}"
 security:
   jwt_secret: "${JWT_SECRET}"
   encryption_key: "${ENCRYPTION_KEY}"
-  data_jail_directory: "${DUCKVIEW_DATA_DIR:-./data}"
-  filesystem_mode: "${DUCKVIEW_FILESYSTEM_MODE:-full}"
+  data_jail_directory: "${ZAANIX_DATA_DIR:-./data}"
+  filesystem_mode: "${ZAANIX_FILESYSTEM_MODE:-full}"
 database:
-  metadata_url: "${DATABASE_URL:-sqlite://duckview_meta.db}"
+  metadata_url: "${DATABASE_URL:-sqlite://zaanix_meta.db}"
 auth:
   strategy: "${AUTH_STRATEGY:-local}"
   oidc:
@@ -142,5 +142,5 @@ duckdb:
   default_memory_limit: "${DUCKDB_MEMORY_LIMIT:-80%}"
   query_timeout_seconds: ${DUCKDB_QUERY_TIMEOUT_SECONDS:-60}
 cache:
-  max_bytes: ${DUCKVIEW_CACHE_MAX_BYTES:-268435456}
+  max_bytes: ${ZAANIX_CACHE_MAX_BYTES:-268435456}
 ```

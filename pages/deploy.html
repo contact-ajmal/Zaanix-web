@@ -1,16 +1,16 @@
 ---
 title: Deploy
-description: Run DuckView with one docker run, with Docker Compose (optionally with DuckView Agent, PostgreSQL metadata, Ollama and Prometheus), on Kubernetes with the bundled manifests, as a cluster, or from source.
+description: Run ZAANIX with one docker run, with Docker Compose (optionally with ZAANIX Agent, PostgreSQL metadata, Ollama and Prometheus), on Kubernetes with the bundled manifests, as a cluster, or from source.
 ---
 <div class="page-head">
   <div class="container">
     <span class="kicker">Deploy</span>
     <h1>One container on a laptop. A cluster for the team.</h1>
-    <p class="lead">DuckView is a single Node.js server with DuckDB inside it — nothing else to install. The image is multi-arch (amd64 and arm64) and ships with DuckDB's extensions, so it needs no network at runtime.</p>
+    <p class="lead">ZAANIX is a single Node.js server with DuckDB inside it — nothing else to install. The image is multi-arch (amd64 and arm64) and ships with DuckDB's extensions, so it needs no network at runtime.</p>
     <nav class="toc-row" aria-label="On this page">
       <a href="#docker">Docker</a>
       <a href="#compose">Docker Compose</a>
-      <a href="#agent">With DuckView Agent</a>
+      <a href="#agent">With ZAANIX Agent</a>
       <a href="#kubernetes">Kubernetes and clusters</a>
       <a href="#source">From source</a>
       <a href="#mcp">MCP clients</a>
@@ -37,8 +37,8 @@ description: Run DuckView with one docker run, with Docker Compose (optionally w
       <a class="link-arrow" href="{{hub}}" target="_blank" rel="noopener">The image on Docker Hub</a>
     </div>
     <div class="details">
-      <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>docker run -d --name duckview -p 4200:4200 \
-  -v duckview-data:/data -v duckview-meta:/app/meta \
+      <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>docker run -d --name zaanix -p 4200:4200 \
+  -v zaanix-data:/data -v zaanix-meta:/app/meta \
   -e JWT_SECRET=$(openssl rand -hex 32) \
   -e ENCRYPTION_KEY=$(openssl rand -hex 32) \
   {{image}}:latest
@@ -46,7 +46,7 @@ description: Run DuckView with one docker run, with Docker Compose (optionally w
 open http://localhost:4200</code></pre></div></div>
       <div><b>Your own files</b><span>Mount a folder instead of the named volume (<code>-v $PWD/data:/data</code>) to query files you already have.</span></div>
       <div><b>Also on GHCR</b><span><code>{{ghcr}}</code>, the same image.</span></div>
-      <div><b>An admin up front</b><span>Set <code>DUCKVIEW_ADMIN_EMAIL</code> and <code>DUCKVIEW_ADMIN_PASSWORD</code> to create it at the first start.</span></div>
+      <div><b>An admin up front</b><span>Set <code>ZAANIX_ADMIN_EMAIL</code> and <code>ZAANIX_ADMIN_PASSWORD</code> to create it at the first start.</span></div>
       <div><b>Data apps</b><span>Apps get their own origin on <code>:4201</code>; publish that port too when you use them.</span></div>
     </div>
   </div>
@@ -54,26 +54,26 @@ open http://localhost:4200</code></pre></div></div>
   <div class="group" id="compose">
     <div class="group-head">
       <h2>Docker Compose</h2>
-      <p>The repository's <code>docker-compose.yml</code> runs DuckView and, by profile, what you want next to it.</p>
+      <p>The repository's <code>docker-compose.yml</code> runs ZAANIX and, by profile, what you want next to it.</p>
     </div>
     <div class="details">
       <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>git clone {{repo}}.git
-cd DuckView
+cd ZAANIX
 cp .env.example .env                            # secrets and admin credentials
-docker compose up -d                            # DuckView, SQLite metadata
+docker compose up -d                            # ZAANIX, SQLite metadata
 docker compose --profile postgres up -d         # + PostgreSQL metadata
-docker compose --profile agent up --build -d    # + DuckView Agent on :4300
+docker compose --profile agent up --build -d    # + ZAANIX Agent on :4300
 docker compose --profile ollama up -d           # + Ollama, a local model
 docker compose --profile observability up -d    # + Prometheus on :9090</code></pre></div></div>
       <div><b>Data</b><span><code>./data</code> is mounted at <code>/data</code>; DuckDB spills to a tmpfs.</span></div>
-      <div><b>Memory</b><span><code>DUCKVIEW_MEMORY</code> caps the container (default 8g); <code>DUCKDB_MEMORY_LIMIT</code> caps the engines.</span></div>
+      <div><b>Memory</b><span><code>ZAANIX_MEMORY</code> caps the container (default 8g); <code>DUCKDB_MEMORY_LIMIT</code> caps the engines.</span></div>
     </div>
   </div>
 
   <div class="group" id="agent">
     <div class="group-head">
-      <h2>With DuckView Agent</h2>
-      <p>The agent is its own server and web app on <code>:4300</code>. It signs people in through DuckView and keeps its missions in its own store.</p>
+      <h2>With ZAANIX Agent</h2>
+      <p>The agent is its own server and web app on <code>:4300</code>. It signs people in through ZAANIX and keeps its missions in its own store.</p>
       <a class="link-arrow" href="{{root}}docs/agent-app.html">The agent guide</a>
     </div>
     <div class="details">
@@ -84,10 +84,10 @@ AGENT_MODEL=claude-sonnet-5
 AGENT_MODEL_API_KEY=sk-ant-…
 
 docker compose --profile agent up --build -d</code></pre></div></div>
-      <div><b>Where it finds DuckView</b><span><code>DUCKVIEW_URL</code> (server to server) and <code>DUCKVIEW_PUBLIC_URL</code> (for people's browsers, for "Open in DuckView").</span></div>
-      <div><b>Its own secret</b><span><code>AGENT_SECRET</code> signs its cookies and encrypts the DuckView credentials it keeps; generated if unset.</span></div>
+      <div><b>Where it finds ZAANIX</b><span><code>ZAANIX_URL</code> (server to server) and <code>ZAANIX_PUBLIC_URL</code> (for people's browsers, for "Open in ZAANIX").</span></div>
+      <div><b>Its own secret</b><span><code>AGENT_SECRET</code> signs its cookies and encrypts the ZAANIX credentials it keeps; generated if unset.</span></div>
       <div><b>How far a request goes</b><span><code>AGENT_MAX_STEPS</code>, <code>AGENT_MAX_RETRIES</code> and <code>AGENT_MAX_OUTPUT_TOKENS</code>.</span></div>
-      <div><b>For a team</b><span>The agent server is one client to DuckView; raise DuckView's per-client rate limit, for example <code>DUCKVIEW__server__rate_limit_per_minute=6000</code>.</span></div>
+      <div><b>For a team</b><span>The agent server is one client to ZAANIX; raise ZAANIX's per-client rate limit, for example <code>ZAANIX__server__rate_limit_per_minute=6000</code>.</span></div>
     </div>
   </div>
 
@@ -101,7 +101,7 @@ docker compose --profile agent up --build -d</code></pre></div></div>
       <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code># secrets: or use ExternalSecrets / SealedSecrets
 cp k8s/secret.example.yaml k8s/secret.yaml
 kubectl apply -k k8s/
-kubectl -n duckview get pods</code></pre></div></div>
+kubectl -n zaanix get pods</code></pre></div></div>
       <div><b>Hardened by default</b><span>Liveness, readiness and startup probes; non-root with a read-only root filesystem; a spill volume and a PVC for <code>/data</code>.</span></div>
       <div><b>Cluster mode</b><span>Nodes share PostgreSQL metadata and a ReadWriteMany data volume. Each workspace's engine lives on one node; the others forward to it.</span></div>
       <div><b>Scheduled work, once</b><span>Syncs, alerts, snapshots, checks and streams are claimed by exactly one node, and move when a node stops.</span></div>
@@ -112,38 +112,38 @@ kubectl -n duckview get pods</code></pre></div></div>
   <div class="group" id="source">
     <div class="group-head">
       <h2>From source</h2>
-      <p>A pnpm monorepo: the server, the web app, DuckView Agent and a Python SDK.</p>
+      <p>A pnpm monorepo: the server, the web app, ZAANIX Agent and a Python SDK.</p>
     </div>
     <div class="details">
       <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>git clone {{repo}}.git
-cd DuckView
+cd ZAANIX
 pnpm install &amp;&amp; pnpm build
-pnpm start                     # DuckView on :4200
-pnpm agent                     # DuckView Agent on :4300 (next to a running DuckView)</code></pre></div></div>
+pnpm start                     # ZAANIX on :4200
+pnpm agent                     # ZAANIX Agent on :4300 (next to a running ZAANIX)</code></pre></div></div>
       <div><b>Requires</b><span>Node 20 or later and pnpm 10. DuckDB ships as a native module.</span></div>
-      <div><b>The CLI</b><span><code>duckview serve | mcp | migrate | create-user | create-token | config</code></span></div>
+      <div><b>The CLI</b><span><code>zaanix serve | mcp | migrate | create-user | create-token | config</code></span></div>
     </div>
   </div>
 
   <div class="group" id="mcp">
     <div class="group-head">
       <h2>MCP clients</h2>
-      <p>Point Claude, Claude Code or Cursor at a running DuckView with a token that has the <code>mcp</code> scope.</p>
+      <p>Point Claude, Claude Code or Cursor at a running ZAANIX with a token that has the <code>mcp</code> scope.</p>
       <a class="link-arrow" href="{{root}}docs/agents.html">MCP and agents</a>
     </div>
     <div class="details">
-      <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>claude mcp add --transport http duckview http://localhost:4200/mcp \
-  --header "Authorization: Bearer dv_…"
+      <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>claude mcp add --transport http zaanix http://localhost:4200/mcp \
+  --header "Authorization: Bearer zx_…"
 
 # or over stdio
-duckview mcp --token dv_… [--workspace &lt;id&gt;]</code></pre></div></div>
+zaanix mcp --token zx_… [--workspace &lt;id&gt;]</code></pre></div></div>
     </div>
   </div>
 
   <div class="group" id="configuration">
     <div class="group-head">
       <h2>Configuration</h2>
-      <p>Everything is in <code>duckview.config.yaml</code>, and any key can be overridden with <code>DUCKVIEW__SECTION__KEY</code>. These cover most deployments.</p>
+      <p>Everything is in <code>zaanix.config.yaml</code>, and any key can be overridden with <code>ZAANIX__SECTION__KEY</code>. These cover most deployments.</p>
       <a class="link-arrow" href="{{root}}docs/configuration.html">All settings</a>
     </div>
     <div class="details">
@@ -154,11 +154,11 @@ duckview mcp --token dv_… [--workspace &lt;id&gt;]</code></pre></div></div>
             <tbody>
               <tr><td><code>JWT_SECRET</code></td><td>Signs sign-in sessions (16 characters or more). Required in production.</td><td>generated per start</td></tr>
               <tr><td><code>ENCRYPTION_KEY</code></td><td>32-byte hex key for the credential vault (AES-256-GCM). Required in production.</td><td>generated per start</td></tr>
-              <tr><td><code>DUCKVIEW_ADMIN_EMAIL</code>, <code>_PASSWORD</code></td><td>The first admin, created only when there are no users.</td><td>none</td></tr>
-              <tr><td><code>DUCKVIEW_DATA_DIR</code></td><td>The folder every DuckDB read and write is confined to.</td><td><code>/data</code> in the image</td></tr>
-              <tr><td><code>DUCKVIEW_FILESYSTEM_MODE</code></td><td><code>full</code> for a personal machine; <code>sandboxed</code> for shared deployments.</td><td><code>full</code></td></tr>
+              <tr><td><code>ZAANIX_ADMIN_EMAIL</code>, <code>_PASSWORD</code></td><td>The first admin, created only when there are no users.</td><td>none</td></tr>
+              <tr><td><code>ZAANIX_DATA_DIR</code></td><td>The folder every DuckDB read and write is confined to.</td><td><code>/data</code> in the image</td></tr>
+              <tr><td><code>ZAANIX_FILESYSTEM_MODE</code></td><td><code>full</code> for a personal machine; <code>sandboxed</code> for shared deployments.</td><td><code>full</code></td></tr>
               <tr><td><code>DATABASE_URL</code></td><td>The metadata store, <code>sqlite://…</code> or <code>postgres://…</code>. Migrations run at start.</td><td>SQLite</td></tr>
-              <tr><td><code>DUCKVIEW_ENABLE_EXTERNAL_ACCESS</code></td><td>Lets a sandboxed deployment read <code>s3://</code>, <code>gcs://</code> and <code>https://</code> sources.</td><td><code>false</code></td></tr>
+              <tr><td><code>ZAANIX_ENABLE_EXTERNAL_ACCESS</code></td><td>Lets a sandboxed deployment read <code>s3://</code>, <code>gcs://</code> and <code>https://</code> sources.</td><td><code>false</code></td></tr>
               <tr><td><code>DUCKDB_MEMORY_LIMIT</code>, <code>DUCKDB_THREADS</code></td><td>The engine's memory ceiling and threads.</td><td><code>80%</code>, auto</td></tr>
               <tr><td><code>AUTH_STRATEGY</code> and <code>OIDC_*</code></td><td>Single sign-on; <code>OIDC_GROUPS_CLAIM</code> maps identity-provider groups to teams.</td><td><code>local</code></td></tr>
               <tr><td><code>COPILOT_PROVIDER</code> and keys</td><td>The server's AI: <code>anthropic</code>, <code>openai</code>, <code>ollama</code>, <code>bedrock</code>, <code>bedrock_agent</code>, <code>agentcore</code>.</td><td>none</td></tr>

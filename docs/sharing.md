@@ -30,7 +30,7 @@ Teams are created by admins (**Settings → Teams**); admins and team **managers
 
 ### Mirroring identity-provider groups
 
-With `auth.strategy: oidc`, DuckView reads the groups claim (`auth.oidc.groups_claim`, default `groups`) from the ID token or userinfo on every login and, when `sync_groups` is on:
+With `auth.strategy: oidc`, ZAANIX reads the groups claim (`auth.oidc.groups_claim`, default `groups`) from the ID token or userinfo on every login and, when `sync_groups` is on:
 
 - creates a team for each group it has not seen (name = claim value, marked *SSO*),
 - adds the user to those teams and removes them from SSO-managed teams no longer in the claim,

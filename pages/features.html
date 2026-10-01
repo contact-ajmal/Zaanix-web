@@ -1,12 +1,12 @@
 ---
 title: Platform
-description: Everything in DuckView — the SQL workbench, dashboards, notebooks and data apps; 35 kinds of source with syncs, streams and change data capture; dbt, a semantic layer and data quality; row filters, column masks, lineage and audit; AI and agents; and the tools to run it for a team.
+description: Everything in ZAANIX — the SQL workbench, dashboards, notebooks and data apps; 35 kinds of source with syncs, streams and change data capture; dbt, a semantic layer and data quality; row filters, column masks, lineage and audit; AI and agents; and the tools to run it for a team.
 ---
 <div class="page-head">
   <div class="container">
     <span class="kicker">The platform</span>
     <h1>Everything a data team does, on one DuckDB workspace.</h1>
-    <p class="lead">DuckView runs a DuckDB engine for each workspace inside its own server. Around it: the tools to connect data, query and model it, build what people use, and govern who sees what — for people, AI and agents alike.</p>
+    <p class="lead">ZAANIX runs a DuckDB engine for each workspace inside its own server. Around it: the tools to connect data, query and model it, build what people use, and govern who sees what — for people, AI and agents alike.</p>
     <nav class="toc-row" aria-label="On this page">
       <a href="#query">Query and explore</a>
       <a href="#build">Build and share</a>
@@ -35,7 +35,7 @@ description: Everything in DuckView — the SQL workbench, dashboards, notebooks
       <div><b>Interactive exploration</b><span>Cross-filtered views of any result: brush one chart and the rest follow (Mosaic).</span></div>
       <div><b>Compare two datasets</b><span>Rows added, removed and changed between two tables or files, column by column.</span></div>
       <div><b>Workspace search</b><span>One box for tables, columns, files, queries, dashboards, notebooks, metrics and apps.</span></div>
-      <div><b>Files from anywhere</b><span>A location browser for folders and buckets, or your system's own file dialog when DuckView runs on your machine.</span></div>
+      <div><b>Files from anywhere</b><span>A location browser for folders and buckets, or your system's own file dialog when ZAANIX runs on your machine.</span></div>
     </div>
   </div>
 
@@ -88,7 +88,7 @@ description: Everything in DuckView — the SQL workbench, dashboards, notebooks
       <a class="link-arrow" href="{{root}}docs/modeling.html">Models, metrics and quality</a>
     </div>
     <div class="details">
-      <div><b>dbt projects</b><span>Real dbt Core compiles against a shadow of the workspace; DuckView runs the SQL in the workspace's engine. Save any query as a model.</span></div>
+      <div><b>dbt projects</b><span>Real dbt Core compiles against a shadow of the workspace; ZAANIX runs the SQL in the workspace's engine. Save any query as a model.</span></div>
       <div><b>Semantic layer</b><span>Metrics defined once (MetricFlow-shaped, imported from dbt) and computed the same way in the explorer, by the AI and by agents.</span></div>
       <div><b>Questions from metrics</b><span>Ask "revenue by region last quarter" and the answer is computed through the semantic layer, not guessed.</span></div>
       <div><b>Data quality</b><span>Checks suggested from the data — nulls, duplicates, categories, ranges, joins, freshness — on a schedule, with the failing rows one click away.</span></div>
@@ -122,17 +122,17 @@ description: Everything in DuckView — the SQL workbench, dashboards, notebooks
     <div class="group-head">
       <h2>AI and agents</h2>
       <p>AI that sees what you see, and agents held to the same rules as people.</p>
-      <a class="link-arrow" href="{{root}}agent.html">DuckView Agent</a>
+      <a class="link-arrow" href="{{root}}agent.html">ZAANIX Agent</a>
     </div>
     <div class="details">
       <div><b>An AI panel on every page</b><span>It sees the table, result, dashboard or error on screen; its answers become SQL tabs, charts and widgets you can edit.</span></div>
       <div><b>Builds dashboards and apps</b><span>A checked build plan from a question, created with one click.</span></div>
       <div><b>Your model</b><span>Anthropic, OpenAI, Amazon Bedrock and Bedrock agents, AgentCore, Ollama — set for the server, or brought by each person.</span></div>
-      <div><b>DuckView Agent</b><span>A separate app for missions: context, a plan, queries as you, approvals and briefs. <a href="{{root}}agent.html">How it works</a>.</span></div>
+      <div><b>ZAANIX Agent</b><span>A separate app for missions: context, a plan, queries as you, approvals and briefs. <a href="{{root}}agent.html">How it works</a>.</span></div>
       <div><b>MCP server</b><span>90 tools for Claude, Cursor and other MCP clients over stdio, SSE or Streamable HTTP; a REST API with OpenAPI for the rest.</span></div>
-      <div><b>Approvals</b><span>A statement from an agent that changes data waits for a person, in DuckView or in the agent's own client.</span></div>
-      <div><b>Agents DuckView runs</b><span>Ready-made agents from a marketplace, run on a schedule with read-only tools.</span></div>
-      <div><b>Agent2Agent</b><span>Other agents call DuckView's agents over A2A, and DuckView asks remote agents.</span></div>
+      <div><b>Approvals</b><span>A statement from an agent that changes data waits for a person, in ZAANIX or in the agent's own client.</span></div>
+      <div><b>Agents ZAANIX runs</b><span>Ready-made agents from a marketplace, run on a schedule with read-only tools.</span></div>
+      <div><b>Agent2Agent</b><span>Other agents call ZAANIX's agents over A2A, and ZAANIX asks remote agents.</span></div>
     </div>
   </div>
 
@@ -144,11 +144,11 @@ description: Everything in DuckView — the SQL workbench, dashboards, notebooks
     </div>
     <div class="details">
       <div><b>Workspace management</b><span>An administration list with bulk actions, a create wizard with clone and templates, and a detail page per workspace.</span></div>
-      <div><b>Backups and bundles</b><span>Backups and restore, with a safety backup first; <code>.duckview</code> bundles to move a workspace.</span></div>
+      <div><b>Backups and bundles</b><span>Backups and restore, with a safety backup first; <code>.zaanix</code> bundles to move a workspace.</span></div>
       <div><b>Quotas and policies</b><span>Storage and engine quotas, an idle policy, and rules for who may create workspaces.</span></div>
       <div><b>Cluster mode</b><span>Several nodes behind one load balancer, with PostgreSQL metadata.</span></div>
       <div><b>The Postgres protocol</b><span>Tableau, Power BI, Metabase, psql and Postgres drivers query workspaces directly, with the same policies.</span></div>
-      <div><b>Orchestration</b><span>Airflow operators, Dagster resources and Prefect tasks start DuckView work and wait for it.</span></div>
+      <div><b>Orchestration</b><span>Airflow operators, Dagster resources and Prefect tasks start ZAANIX work and wait for it.</span></div>
       <div><b>Result cache</b><span>Repeated profiles and queries answered from a cache that knows when the data changed.</span></div>
       <div><b>Usage and cost</b><span>Compute time, AI tokens and storage by person and workspace, priced at your rates, with budgets that notify a channel.</span></div>
       <div><b>Observability</b><span>Prometheus metrics, OpenTelemetry traces and structured logs.</span></div>
@@ -168,8 +168,8 @@ description: Everything in DuckView — the SQL workbench, dashboards, notebooks
       </div>
     </div>
     <div>
-      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>docker run -d --name duckview -p 4200:4200 \
-  -v duckview-data:/data -v duckview-meta:/app/meta \
+      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>docker run -d --name zaanix -p 4200:4200 \
+  -v zaanix-data:/data -v zaanix-meta:/app/meta \
   {{image}}:latest</code></pre></div>
     </div>
   </div>

@@ -5,13 +5,13 @@ group: Model and govern
 description: dbt projects run in the workspace's own engine, a semantic layer of metrics defined once, data quality checks on a schedule, metric monitors, data prep recipes and join discovery.
 ---
 
-Everything on this page lives under **Data** in the platform: *Prepare*, *Models*, *Metrics* and *Quality*. Each part is also a set of tools for agents, and DuckView AI reads all of it.
+Everything on this page lives under **Data** in the platform: *Prepare*, *Models*, *Metrics* and *Quality*. Each part is also a set of tools for agents, and ZAANIX AI reads all of it.
 
 ## dbt projects
 
 **Data → Models** keeps dbt projects in a workspace and runs them in the workspace's own engine. Start from the starter project (a seed, a staging view, a table on top, descriptions and tests) or import a project folder.
 
-How a run works: real **dbt Core** (with dbt-duckdb) compiles the project against a *shadow* database — empty tables with the workspace's real schemas and columns, so `is_incremental()` and introspection work — and DuckView then runs the compiled SQL **in the workspace's engine, as the person running it**. The SQL guard, access policies, the audit log and the cache apply as for any query.
+How a run works: real **dbt Core** (with dbt-duckdb) compiles the project against a *shadow* database — empty tables with the workspace's real schemas and columns, so `is_incremental()` and introspection work — and ZAANIX then runs the compiled SQL **in the workspace's engine, as the person running it**. The SQL guard, access policies, the audit log and the cache apply as for any query.
 
 - **Commands**: `build`, `run`, `test`, `seed` and `compile`, with `--select`, `--exclude`, `--full-refresh` and the project's vars.
 - **Materialisations**: view, table, incremental (append, or delete + insert on `unique_key`) and ephemeral; data tests with `severity`, `warn_if` and `error_if`. As in `dbt build`, a failure skips everything downstream.
@@ -48,7 +48,7 @@ metrics:
 
 A query — metrics, group by (a dimension, a time grain such as `order_date__month`, or a dimension of another model through an entity), filters, order and limit — compiles to one SELECT and runs as the caller, under their access policies. Saving validates every model and metric against the engine.
 
-The same definitions answer **the Metrics explorer** (with a question box: "revenue by region last quarter"), **DuckView AI** (it answers with a metric query, computed exactly as defined, never a guess), **dashboards** and **agents** (`list_metrics`, `query_metrics`).
+The same definitions answer **the Metrics explorer** (with a question box: "revenue by region last quarter"), **ZAANIX AI** (it answers with a metric query, computed exactly as defined, never a guess), **dashboards** and **agents** (`list_metrics`, `query_metrics`).
 
 ## Data quality
 

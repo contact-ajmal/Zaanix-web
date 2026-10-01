@@ -5,13 +5,13 @@ group: Work with data
 description: Streamlit, Dash and Gradio apps on a workspace's data — a Python SDK, an editor with a live preview, runtimes from a process to Kubernetes or the viewer's browser, scaling to zero, and publishing with review.
 ---
 
-**Apps** turns a workspace into a place where analysts build applications, not only dashboards: a **Streamlit**, **Dash** or **Gradio** app that reads the workspace's tables and files through the `duckview` SDK, edited in DuckView next to a live preview, run by DuckView, and opened by the workspace's members.
+**Apps** turns a workspace into a place where analysts build applications, not only dashboards: a **Streamlit**, **Dash** or **Gradio** app that reads the workspace's tables and files through the `zaanix` SDK, edited in ZAANIX next to a live preview, run by ZAANIX, and opened by the workspace's members.
 
 ## Write one
 
 ```python
 import streamlit as st
-from duckview.streamlit import connect, query, table_picker, viewer
+from zaanix.streamlit import connect, query, table_picker, viewer
 
 st.title("Explorer")
 dv = connect()                                   # from the runner's environment
@@ -25,11 +25,11 @@ st.dataframe(df)
 
 ## The SDK
 
-`pip install duckview` — no dependencies; add `[streamlit]` for streamlit, pandas and pyarrow.
+`pip install zaanix` — no dependencies; add `[streamlit]` for streamlit, pandas and pyarrow.
 
 ```python
-import duckview
-dv = duckview.connect(url, token, workspace)     # or DUCKVIEW_URL / DUCKVIEW_TOKEN / DUCKVIEW_WORKSPACE
+import zaanix
+dv = zaanix.connect(url, token, workspace)     # or ZAANIX_URL / ZAANIX_TOKEN / ZAANIX_WORKSPACE
 dv.query("SELECT zone, avg(fare) FROM trips GROUP BY 1")   # pandas; format="records" | "polars" | "result"
 dv.query_arrow("SELECT * FROM trips")             # pyarrow through the Arrow export — the fast path for large results
 dv.tables(); dv.files(); dv.catalog()
@@ -38,7 +38,7 @@ dv.copilot("Which zones have the highest average fare?")["text"]
 dv.tools(); dv.call_tool("profile_dataset", file_path_or_table="trips")   # the agent façade, for LangChain / CrewAI / Strands
 ```
 
-Everything goes through DuckView's HTTP API with a bearer token — the SDK never opens the `.duckdb` file, so the engine keeps its lock and every read carries the caller's role, the sandbox and the audit trail.
+Everything goes through ZAANIX's HTTP API with a bearer token — the SDK never opens the `.duckdb` file, so the engine keeps its lock and every read carries the caller's role, the sandbox and the audit trail.
 
 ## Frameworks
 
@@ -48,16 +48,16 @@ Everything goes through DuckView's HTTP API with a bearer token — the SDK neve
 | Dash | calls `app.run()` | `python app.py` — template *Dash explorer* |
 | Gradio | calls `demo.launch()` | `python app.py` — template *Gradio query* |
 
-The framework is fixed when the app is created. The visitor's identity reaches every framework in `X-DuckView-User / -Email / -Role` headers (`viewer()` in Streamlit, `duckview.viewer_from_headers(...)` in Dash, `request.headers` in Gradio).
+The framework is fixed when the app is created. The visitor's identity reaches every framework in `X-ZAANIX-User / -Email / -Role` headers (`viewer()` in Streamlit, `zaanix.viewer_from_headers(...)` in Dash, `request.headers` in Gradio).
 
 ## Where apps run
 
-Each app gets a token minted for its creator on every start — the `read` scope, **scoped to the app's workspace**, expiring, revoked when the app stops — and a minimal environment (`DUCKVIEW_URL`, `DUCKVIEW_TOKEN`, `DUCKVIEW_WORKSPACE`), never the server's secrets. An app can query what a viewer could and nothing else. `apps.runtime` picks where it runs:
+Each app gets a token minted for its creator on every start — the `read` scope, **scoped to the app's workspace**, expiring, revoked when the app stops — and a minimal environment (`ZAANIX_URL`, `ZAANIX_TOKEN`, `ZAANIX_WORKSPACE`), never the server's secrets. An app can query what a viewer could and nothing else. `apps.runtime` picks where it runs:
 
 | Runtime | Instance | Isolation |
 |---|---|---|
 | `subprocess` (default) | a process on the server, from a shared virtualenv created on the first start | a separate process with a minimal environment |
-| `docker` | a container of `anbproject/duckview-app-runtime` | read-only root, all capabilities dropped, non-root, memory and CPU limits |
+| `docker` | a container of `anbproject/zaanix-app-runtime` | read-only root, all capabilities dropped, non-root, memory and CPU limits |
 | `kubernetes` | a pod in the server's namespace | non-root, read-only root, no service-account token, resource limits; a NetworkPolicy fences app pods |
 
 **In the viewer's browser.** A Streamlit app can run with `execution: browser` on stlite (Streamlit on Pyodide): no process at all, and it reads **as the viewer**, with a read-only token for the app's workspace.
@@ -72,7 +72,7 @@ Each app gets a token minted for its creator on every start — the `read` scope
 
 ## For agents and MCP clients
 
-Everything above is a tool. From Claude Code, Claude Desktop, Cursor or any MCP client connected to DuckView:
+Everything above is a tool. From Claude Code, Claude Desktop, Cursor or any MCP client connected to ZAANIX:
 
 | Tool | Does |
 |---|---|
