@@ -43,7 +43,7 @@ vconcat:
     height: 300
 ```
 
-A complete example — 3.7M NYC taxi trips with menus, sliders, headline numbers, an hourly timeline, an hour × weekday heatmap, brushable histograms, a density raster, grouped lines, top zones and the filtered rows — ships as [`examples/mosaic/nyc-yellow-taxi.yaml`](https://github.com/contact-ajmal/ZAANIX/blob/main/examples/mosaic/nyc-yellow-taxi.yaml).
+A complete example — 3.7M NYC taxi trips with menus, sliders, headline numbers, an hourly timeline, an hour × weekday heatmap, brushable histograms, a density raster, grouped lines, top zones and the filtered rows — ships as [`examples/mosaic/nyc-yellow-taxi.yaml`](https://github.com/contact-ajmal/Zaanix/blob/main/examples/mosaic/nyc-yellow-taxi.yaml).
 
 ## Agents and Copilot
 
