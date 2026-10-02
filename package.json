@@ -1,0 +1,10 @@
+{
+  "name": "zaanix-web",
+  "private": true,
+  "description": "The ZAANIX website and documentation, published to GitHub Pages.",
+  "type": "module",
+  "zaanixVersion": "2.0.0",
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}
