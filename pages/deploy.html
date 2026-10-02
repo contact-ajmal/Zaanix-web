@@ -1,18 +1,17 @@
 ---
 title: Deploy
-description: Run ZAANIX with one docker run, with Docker Compose (optionally with ZAANIX Agent, PostgreSQL metadata, Ollama and Prometheus), on Kubernetes with the bundled manifests, as a cluster, or from source.
+description: How ZAANIX runs — one container, Docker Compose (optionally with ZAANIX Agent, PostgreSQL metadata, Ollama and Prometheus), Kubernetes or a cluster — and how to get access.
 ---
 <div class="page-head">
   <div class="container">
     <span class="kicker">Deploy</span>
     <h1>One container on a laptop. A cluster for the team.</h1>
-    <p class="lead">ZAANIX is a single Node.js server with DuckDB inside it — nothing else to install. The image is multi-arch (amd64 and arm64) and ships with DuckDB's extensions, so it needs no network at runtime.</p>
+    <p class="lead">ZAANIX is a single Node.js server with DuckDB inside it — nothing else to install. The image is multi-arch (amd64 and arm64) and ships with DuckDB's extensions, so it needs no network at runtime. It is available on request: <a href="{{mailto}}">talk to us</a> for access and the deployment files.</p>
     <nav class="toc-row" aria-label="On this page">
       <a href="#docker">Docker</a>
       <a href="#compose">Docker Compose</a>
       <a href="#agent">With ZAANIX Agent</a>
       <a href="#kubernetes">Kubernetes and clusters</a>
-      <a href="#source">From source</a>
       <a href="#mcp">MCP clients</a>
       <a href="#configuration">Configuration</a>
     </nav>
@@ -22,7 +21,7 @@ description: Run ZAANIX with one docker run, with Docker Compose (optionally wit
 <section>
   <div class="container">
     <div class="options">
-      <div><h3>Try it</h3><p>One <code>docker run</code> on your machine. The first person to open it creates the admin account.</p><a class="link-arrow" href="#docker">docker run</a></div>
+      <div><h3>Try it</h3><p>One container on your machine. The first person to open it creates the admin account.</p><a class="link-arrow" href="#docker">docker run</a></div>
       <div><h3>Run it for a team</h3><p>Docker Compose with PostgreSQL metadata, the agent, a local model and Prometheus as you need them.</p><a class="link-arrow" href="#compose">Docker Compose</a></div>
       <div><h3>Scale it</h3><p>Kubernetes manifests, and cluster mode: several nodes behind one load balancer.</p><a class="link-arrow" href="#kubernetes">Kubernetes</a></div>
     </div>
@@ -34,18 +33,10 @@ description: Run ZAANIX with one docker run, with Docker Compose (optionally wit
     <div class="group-head">
       <h2>Docker</h2>
       <p>The fastest first look. Set <code>JWT_SECRET</code> and <code>ENCRYPTION_KEY</code> for anything longer, or sign-ins and stored credentials will not survive a restart.</p>
-      <a class="link-arrow" href="{{hub}}" target="_blank" rel="noopener">The image on Docker Hub</a>
     </div>
     <div class="details">
-      <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>docker run -d --name zaanix -p 4200:4200 \
-  -v zaanix-data:/data -v zaanix-meta:/app/meta \
-  -e JWT_SECRET=$(openssl rand -hex 32) \
-  -e ENCRYPTION_KEY=$(openssl rand -hex 32) \
-  {{image}}:latest
-
-open http://localhost:4200</code></pre></div></div>
-      <div><b>Your own files</b><span>Mount a folder instead of the named volume (<code>-v $PWD/data:/data</code>) to query files you already have.</span></div>
-      <div><b>Also on GHCR</b><span><code>{{ghcr}}</code>, the same image.</span></div>
+      <div class="wide"><div class="callout"><span><b>Available on request.</b> The image is private. <a href="{{mailto}}">Talk to us</a> and we will give you access and the exact command for your setup.</span></div></div>
+      <div><b>Your own files</b><span>Mount a folder at <code>/data</code> to query files you already have.</span></div>
       <div><b>An admin up front</b><span>Set <code>ZAANIX_ADMIN_EMAIL</code> and <code>ZAANIX_ADMIN_PASSWORD</code> to create it at the first start.</span></div>
       <div><b>Data apps</b><span>Apps get their own origin on <code>:4201</code>; publish that port too when you use them.</span></div>
     </div>
@@ -54,17 +45,11 @@ open http://localhost:4200</code></pre></div></div>
   <div class="group" id="compose">
     <div class="group-head">
       <h2>Docker Compose</h2>
-      <p>The repository's <code>docker-compose.yml</code> runs ZAANIX and, by profile, what you want next to it.</p>
+      <p>A <code>docker-compose.yml</code>, shared with access, runs ZAANIX and, by profile, what you want next to it.</p>
     </div>
     <div class="details">
-      <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>git clone {{repo}}.git
-cd ZAANIX
-cp .env.example .env                            # secrets and admin credentials
-docker compose up -d                            # ZAANIX, SQLite metadata
-docker compose --profile postgres up -d         # + PostgreSQL metadata
-docker compose --profile agent up --build -d    # + ZAANIX Agent on :4300
-docker compose --profile ollama up -d           # + Ollama, a local model
-docker compose --profile observability up -d    # + Prometheus on :9090</code></pre></div></div>
+      <div><b>Profiles</b><span>PostgreSQL metadata, ZAANIX Agent on <code>:4300</code>, Ollama for a local model, and Prometheus on <code>:9090</code> — each switched on when you want it.</span></div>
+      <div><b>Secrets</b><span>An <code>.env</code> file holds the secrets and the first admin's credentials.</span></div>
       <div><b>Data</b><span><code>./data</code> is mounted at <code>/data</code>; DuckDB spills to a tmpfs.</span></div>
       <div><b>Memory</b><span><code>ZAANIX_MEMORY</code> caps the container (default 8g); <code>DUCKDB_MEMORY_LIMIT</code> caps the engines.</span></div>
     </div>
@@ -81,9 +66,7 @@ docker compose --profile observability up -d    # + Prometheus on :9090</code></
 # provider: anthropic | openai | openrouter | ollama | openai-compatible
 AGENT_MODEL_PROVIDER=anthropic
 AGENT_MODEL=claude-sonnet-5
-AGENT_MODEL_API_KEY=sk-ant-…
-
-docker compose --profile agent up --build -d</code></pre></div></div>
+AGENT_MODEL_API_KEY=sk-ant-…</code></pre></div></div>
       <div><b>Where it finds ZAANIX</b><span><code>ZAANIX_URL</code> (server to server) and <code>ZAANIX_PUBLIC_URL</code> (for people's browsers, for "Open in ZAANIX").</span></div>
       <div><b>Its own secret</b><span><code>AGENT_SECRET</code> signs its cookies and encrypts the ZAANIX credentials it keeps; generated if unset.</span></div>
       <div><b>How far a request goes</b><span><code>AGENT_MAX_STEPS</code>, <code>AGENT_MAX_RETRIES</code> and <code>AGENT_MAX_OUTPUT_TOKENS</code>.</span></div>
@@ -94,34 +77,14 @@ docker compose --profile agent up --build -d</code></pre></div></div>
   <div class="group" id="kubernetes">
     <div class="group-head">
       <h2>Kubernetes and clusters</h2>
-      <p>Kustomize manifests in <code>k8s/</code>, and a cluster mode for more than one node.</p>
+      <p>Kustomize manifests, shared with access, and a cluster mode for more than one node.</p>
       <a class="link-arrow" href="{{root}}docs/deployment.html">Deployment guide</a>
     </div>
     <div class="details">
-      <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code># secrets: or use ExternalSecrets / SealedSecrets
-cp k8s/secret.example.yaml k8s/secret.yaml
-kubectl apply -k k8s/
-kubectl -n zaanix get pods</code></pre></div></div>
       <div><b>Hardened by default</b><span>Liveness, readiness and startup probes; non-root with a read-only root filesystem; a spill volume and a PVC for <code>/data</code>.</span></div>
       <div><b>Cluster mode</b><span>Nodes share PostgreSQL metadata and a ReadWriteMany data volume. Each workspace's engine lives on one node; the others forward to it.</span></div>
       <div><b>Scheduled work, once</b><span>Syncs, alerts, snapshots, checks and streams are claimed by exactly one node, and move when a node stops.</span></div>
       <div><b>Sticky where it matters</b><span>Data apps and MCP SSE sessions stay on their node (ClientIP affinity); everything else can go to any node.</span></div>
-    </div>
-  </div>
-
-  <div class="group" id="source">
-    <div class="group-head">
-      <h2>From source</h2>
-      <p>A pnpm monorepo: the server, the web app, ZAANIX Agent and a Python SDK.</p>
-    </div>
-    <div class="details">
-      <div class="wide"><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>git clone {{repo}}.git
-cd ZAANIX
-pnpm install &amp;&amp; pnpm build
-pnpm start                     # ZAANIX on :4200
-pnpm agent                     # ZAANIX Agent on :4300 (next to a running ZAANIX)</code></pre></div></div>
-      <div><b>Requires</b><span>Node 20 or later and pnpm 10. DuckDB ships as a native module.</span></div>
-      <div><b>The CLI</b><span><code>zaanix serve | mcp | migrate | create-user | create-token | config</code></span></div>
     </div>
   </div>
 

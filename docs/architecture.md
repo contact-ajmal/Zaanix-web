@@ -94,4 +94,4 @@ packages/web/src
 
 ## Tests
 
-`pnpm test` runs 174 tests: the jail, SQL guard, crypto and config units, plus integration suites that boot real DuckDB engines and the MCP server over every transport, serve real Iceberg tables through a mock REST catalog, emulate a Databricks workspace (Unity Catalog + Statement Execution API), exercise the agent façade against a fake AWS bridge, and cover sharing/teams and the result cache end to end. `scripts/smoke.mjs` verifies a running instance.
+The test suite runs 174 tests: the jail, SQL guard, crypto and config units, plus integration suites that boot real DuckDB engines and the MCP server over every transport, serve real Iceberg tables through a mock REST catalog, emulate a Databricks workspace (Unity Catalog + Statement Execution API), exercise the agent façade against a fake AWS bridge, and cover sharing/teams and the result cache end to end. `scripts/smoke.mjs` verifies a running instance.

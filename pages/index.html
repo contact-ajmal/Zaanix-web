@@ -7,8 +7,8 @@ description: ZAANIX is a self-hosted data workspace on DuckDB. Connect files, da
     <h1>Your data workspace, with an agent that works in it.</h1>
     <p class="lead">ZAANIX brings your files, databases, warehouses and lakehouses into one self-hosted workspace on DuckDB. Query, model, chart and govern the data yourself — or hand the question to ZAANIX Agent, which works with your access and asks before it changes anything.</p>
     <div class="hero-actions">
-      <a class="btn btn-primary btn-lg" href="{{root}}deploy.html">Get started</a>
-      <div class="cmd"><span class="prompt">$</span><code>docker run -p 4200:4200 {{image}}</code><button type="button" data-copy="docker run -p 4200:4200 {{image}}">Copy</button></div>
+      <a class="btn btn-primary btn-lg" href="{{mailto}}">Talk to us</a>
+      <a class="btn btn-lg" href="{{root}}deploy.html">How it runs</a>
     </div>
 
     <div class="stage">
@@ -250,24 +250,17 @@ description: ZAANIX is a self-hosted data workspace on DuckDB. Connect files, da
 <section>
   <div class="container start">
     <div>
-      <h2>Running in a minute.</h2>
-      <p class="lead">One container. Open it, create the first account, and drop in a file.</p>
+      <h2>Running where your data is.</h2>
+      <p class="lead">One container on a laptop, Docker Compose for a team, Kubernetes or a cluster for more. Nothing else to install, and no network needed at runtime.</p>
       <div class="actions">
         <a class="btn btn-primary btn-lg" href="{{root}}deploy.html">Deployment options</a>
         <a class="btn btn-lg" href="{{root}}docs/index.html">Read the docs</a>
       </div>
     </div>
-    <div>
-      <span class="code-title">ZAANIX</span>
-      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>docker run -d --name zaanix -p 4200:4200 \
-  -v zaanix-data:/data -v zaanix-meta:/app/meta \
-  {{image}}:latest
-# → http://localhost:4200</code></pre></div>
-      <span class="code-title">ZAANIX with the agent</span>
-      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>git clone {{repo}}.git
-cd ZAANIX
-docker compose --profile agent up --build -d
-# → ZAANIX on :4200, ZAANIX Agent on :4300</code></pre></div>
-    </div>
+    <div class="show-text"><ul>
+      <li><b>On a laptop.</b> One container; the first person to open it creates the admin account.</li>
+      <li><b>For a team.</b> Docker Compose with PostgreSQL metadata, ZAANIX Agent, a local model and Prometheus as you need them.</li>
+      <li><b>At scale.</b> Kubernetes manifests, and a cluster mode with several nodes behind one load balancer.</li>
+    </ul></div>
   </div>
 </section>

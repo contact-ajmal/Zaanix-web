@@ -18,7 +18,7 @@ description: One page for 35 kinds of source — object storage, lakehouse catal
 | Warehouses | Snowflake, Google BigQuery, Amazon Redshift, ClickHouse, Microsoft Fabric / OneLake |
 | SaaS applications | Salesforce, HubSpot, Stripe, Google Analytics 4, Airtable, Notion, GitHub, Jira, Zendesk, Shopify, Intercom, Linear, Pipedrive, Mailchimp |
 
-Every card says what the source can do — **browse** it, **attach** it as `alias.schema.table`, run **remote SQL** on it, **sync** from it — and how it authenticates. Missing one? Ask on GitHub.
+Every card says what the source can do — **browse** it, **attach** it as `alias.schema.table`, run **remote SQL** on it, **sync** from it — and how it authenticates. Missing one? [Tell us]({{mailto}}).
 
 ## Databases
 

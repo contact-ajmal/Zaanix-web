@@ -369,3 +369,20 @@ h2:hover .anchor, h3:hover .anchor { opacity: 1; }
 .night-table td:first-child { color: #fff; font-weight: 600; }
 .night-table td:last-child { color: var(--brand); font-weight: 600; white-space: nowrap; }
 .steps.plain li::before { display: none; }
+
+/* Talk to us: the closing band on every marketing page (ZAANIX is available on request). */
+.talk { background: var(--brand-wash); border-top: 1px solid var(--line); padding: 88px 0; }
+.talk-inner { display: grid; grid-template-columns: 7fr 5fr; gap: 56px; align-items: center; }
+.talk h2 { font-size: clamp(30px, 3.4vw, 44px); letter-spacing: -0.028em; line-height: 1.08; }
+.talk .lead { margin-top: 16px; }
+.talk-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.talk-mail { flex-basis: 100%; margin: 4px 0 0; color: var(--slate); font-size: 15px; }
+.access { display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
+.access h3 { margin: 0; font-size: 18px; }
+.access p { margin: 0; color: var(--slate); }
+.access .actions { margin-top: 4px; }
+@media (max-width: 860px) {
+  .talk { padding: 64px 0; }
+  .talk-inner { grid-template-columns: 1fr; gap: 28px; }
+  .talk-actions .btn { flex: 1 1 100%; justify-content: center; }
+}

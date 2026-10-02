@@ -7,17 +7,9 @@ description: From zero to your first query, dashboard and agent mission in a few
 
 ## Run ZAANIX
 
-The quickest start is the multi-arch image on [Docker Hub]({{hub}}):
+ZAANIX is available on request — [talk to us]({{mailto}}) and we will give you access to the image and the deployment files, and help you set it up. It runs as one container (multi-arch, `linux/amd64` and `linux/arm64`) with two volumes: `/data` for your data and `/app/meta` for its metadata.
 
-```bash
-docker run -d --name zaanix -p 4200:4200 \
-  -v zaanix-data:/data -v zaanix-meta:/app/meta \
-  -e JWT_SECRET=$(openssl rand -hex 32) \
-  -e ENCRYPTION_KEY=$(openssl rand -hex 32) \
-  {{image}}:latest
-```
-
-Open **http://localhost:4200**. The first person to open it creates the administrator account (or set `ZAANIX_ADMIN_EMAIL` and `ZAANIX_ADMIN_PASSWORD` to create it at start). Compose, Kubernetes, clusters and installs from source are in [Deployment](deployment.html).
+Once it is running, open **http://localhost:4200**. The first person to open it creates the administrator account (or set `ZAANIX_ADMIN_EMAIL` and `ZAANIX_ADMIN_PASSWORD` to create it at start). Compose, Kubernetes and clusters are in [Deployment](deployment.html).
 
 > Without `JWT_SECRET` and `ENCRYPTION_KEY` the server starts with secrets generated for that run and warns you: sign-ins and stored credentials will not survive a restart. Set them for anything beyond a first look.
 
@@ -72,7 +64,7 @@ The workspace switcher's **Share…** grants people or teams *viewer*, *editor* 
 
 ## Hand work to an agent
 
-- **ZAANIX Agent** is the app for handing over data work: choose the data, say what you need, approve what it changes. Run it with `docker compose --profile agent up --build`; see [ZAANIX Agent](agent-app.html).
+- **ZAANIX Agent** is the app for handing over data work: choose the data, say what you need, approve what it changes. It runs next to ZAANIX; see [ZAANIX Agent](agent-app.html).
 - **Your own agents** reach ZAANIX over MCP. Mint a token under **Agents**, then:
 
 ```bash

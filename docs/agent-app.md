@@ -15,7 +15,7 @@ ZAANIX itself is unchanged by it. People who prefer the platform keep using it; 
 
 The agent is its own server (with its own store for missions) and web app, on port 4300. It needs a running ZAANIX.
 
-With Docker Compose, from the repository:
+It comes with ZAANIX, which is available on request — [talk to us]({{mailto}}) for access. With Docker Compose it is the `agent` profile, and its model for everyone is set in `.env`:
 
 ```bash
 # .env — a model for everyone; leave it out and people bring their own key
@@ -23,19 +23,7 @@ With Docker Compose, from the repository:
 AGENT_MODEL_PROVIDER=anthropic
 AGENT_MODEL=claude-sonnet-5
 AGENT_MODEL_API_KEY=sk-ant-…
-
-docker compose --profile agent up --build -d
-# → ZAANIX on :4200, ZAANIX Agent on :4300
 ```
-
-From source, next to a running ZAANIX:
-
-```bash
-pnpm install && pnpm build
-ZAANIX_URL=http://localhost:4200 pnpm agent
-```
-
-For development, `pnpm --filter @zaanix/agent-server dev` runs the API on :4300 and `pnpm --filter @zaanix/agent-web dev` the UI on :5174.
 
 ## Configuration
 

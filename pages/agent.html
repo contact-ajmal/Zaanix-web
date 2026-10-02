@@ -117,13 +117,10 @@ description: ZAANIX Agent is a web app next to ZAANIX for handing over data work
         <a class="btn btn-lg" href="{{root}}docs/agent-app.html">The guide</a>
       </div>
     </div>
-    <div>
-      <div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code>git clone {{repo}}.git
-cd ZAANIX
-echo "AGENT_MODEL_PROVIDER=anthropic" &gt;&gt; .env
-echo "AGENT_MODEL_API_KEY=sk-ant-…" &gt;&gt; .env
-docker compose --profile agent up --build -d
-# → ZAANIX on :4200, ZAANIX Agent on :4300</code></pre></div>
+    <div class="access">
+      <h3>Available on request</h3>
+      <p>ZAANIX Agent comes with ZAANIX. Talk to us to try it on your data, with your own model or the one you choose for your team.</p>
+      <div class="actions"><a class="btn btn-primary" href="{{mailto}}">Talk to us</a><a class="btn" href="{{root}}docs/agent-app.html">The guide</a></div>
     </div>
   </div>
 </section>
